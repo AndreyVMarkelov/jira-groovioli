@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-icon">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/pluginIcon.png</param>
+        <param name="plugin-logo">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/pluginLogo.png</param>
+        <param name="vendor-icon">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/32.jpg</param>
+        <param name="vendor-logo">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/144.jpg</param>
+        <param name="atlassian-data-center-compatible">true</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="ru.andreymarkelov.atlas.plugins.jira.groovioli.i18n.groovioli"/>
+
+    <!-- add our web resources -->
+    <web-resource key="groovioli-resources" name="Groovioli Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <resource type="download" name="groovioli.css" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/css/groovioli.css"/>
+        <resource type="download" name="groovioli.js" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/js/groovioli.js"/>
+        <resource type="download" name="images/" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/images"/>
+        <context>groovioli</context>
+    </web-resource>
+
+    <!-- Components -->
+    <component key="groovioli-script-manager" name="Groovioli Script Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManagerImpl">
+        <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager</interface>
+    </component>
+
+    <workflow-condition key="groovioli-condition" name="Groovioli Condition" i18n-name-key="groovioli-condition.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliConditionFactory">
+        <description key="groovioli-condition.description">This condition executes groovy script.</description>
+        <condition-class>ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliCondition</condition-class>
+        <resource type="velocity" name="view" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/conditions/groovioli-condition.vm"/>
+        <resource type="velocity" name="input-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/conditions/groovioli-condition-input.vm"/>
+        <resource type="velocity" name="edit-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/conditions/groovioli-condition-input.vm"/>
+    </workflow-condition>
+
+    <workflow-function key="groovioli-function" name="Groovioli Function" i18n-name-key="groovioli-function.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliFunctionFactory">
+        <description key="groovioli-function.description">This post-function executes groovy script.</description>
+        <function-class>ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliFunction</function-class>
+        <resource type="velocity" name="view" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/postfunctions/groovioli-function.vm"/>
+        <resource type="velocity" name="input-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/postfunctions/groovioli-function-input.vm"/>
+        <resource type="velocity" name="edit-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/postfunctions/groovioli-function-input.vm"/>
+    </workflow-function>
+
+    <workflow-validator key="groovioli-validator" name="Groovioli Validator" i18n-name-key="groovioli-validator.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidatorFactory">
+        <description key="groovioli-validator.description">This validator executes groovy script.</description>
+        <validator-class>ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidator</validator-class>
+        <resource type="velocity" name="view" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/"/>
+        <resource type="velocity" name="input-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/"/>
+        <resource type="velocity" name="edit-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/"/>
+    </workflow-validator>
+</atlassian-plugin>
