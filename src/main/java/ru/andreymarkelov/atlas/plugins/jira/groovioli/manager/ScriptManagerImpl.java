@@ -7,7 +7,9 @@ import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.security.groups.GroupManager;
 import com.atlassian.jira.security.roles.ProjectRoleManager;
 import com.atlassian.jira.user.util.UserManager;
+import com.atlassian.jira.util.JiraUtils;
 import com.atlassian.jira.workflow.WorkflowTransitionUtil;
+import com.atlassian.jira.workflow.WorkflowTransitionUtilImpl;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -34,7 +36,6 @@ public class ScriptManagerImpl implements ScriptManager {
                 }
             });
 
-    private final ScriptManager scriptManager;
     private final GroupManager groupManager;
     private final ProjectRoleManager projectRoleManager;
     private final WatcherManager watcherManager;
@@ -45,22 +46,19 @@ public class ScriptManagerImpl implements ScriptManager {
     private final JiraAuthenticationContext jiraAuthenticationContext;
 
     public ScriptManagerImpl(
-            ScriptManager scriptManager,
             GroupManager groupManager,
             ProjectRoleManager projectRoleManager,
             WatcherManager watcherManager,
             UserManager userManager,
             CustomFieldManager customFieldManager,
-            WorkflowTransitionUtil workflowTransitionUtil,
             AttachmentManager attachmentManager,
             JiraAuthenticationContext jiraAuthenticationContext) {
-        this.scriptManager = scriptManager;
         this.groupManager = groupManager;
         this.projectRoleManager = projectRoleManager;
         this.watcherManager = watcherManager;
         this.userManager = userManager;
         this.customFieldManager = customFieldManager;
-        this.workflowTransitionUtil = workflowTransitionUtil;
+        this.workflowTransitionUtil = JiraUtils.loadComponent(WorkflowTransitionUtilImpl.class);
         this.attachmentManager = attachmentManager;
         this.jiraAuthenticationContext = jiraAuthenticationContext;
     }
@@ -74,7 +72,6 @@ public class ScriptManagerImpl implements ScriptManager {
         } catch (ExecutionException ex) {
             throw new WorkflowException("Error executing groovy script", ex);
         }
-
     }
 
     @Override

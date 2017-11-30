@@ -47,8 +47,9 @@
     <workflow-validator key="groovioli-validator" name="Groovioli Validator" i18n-name-key="groovioli-validator.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidatorFactory">
         <description key="groovioli-validator.description">This validator executes groovy script.</description>
         <validator-class>ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidator</validator-class>
-        <resource type="velocity" name="view" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/"/>
-        <resource type="velocity" name="input-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/"/>
-        <resource type="velocity" name="edit-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/"/>
+        /home/amarkelov/work/groovioli/src/main/resources/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/
+        <resource type="velocity" name="view" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/groovioli-validator.vm"/>
+        <resource type="velocity" name="input-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/groovioli-validator-input.vm"/>
+        <resource type="velocity" name="edit-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/groovioli-validator-input.vm"/>
     </workflow-validator>
 </atlassian-plugin>

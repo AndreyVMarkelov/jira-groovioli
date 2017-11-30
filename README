@@ -1,0 +1,50 @@
+# Groovioli
+
+This is the plugin for Atlassian JIRA which add way to perform custom actions in Groovy.
+
+## Components
+
+1. Groovioli Condition
+
+    dedwe
+
+2. Groovioli Validator
+
+3. Groovioli Function
+
+## Groovy binding variables
+
+Global:
+- groupManager: com.atlassian.jira.security.groups.GroupManager
+- watcherManager: com.atlassian.jira.issue.watchers.WatcherManager
+- userManager: com.atlassian.jira.user.util.UserManager
+- customFieldManager: com.atlassian.jira.issue.CustomFieldManager
+- workflowTransitionUtil: com.atlassian.jira.workflow.WorkflowTransitionUtil
+- attachmentManager: com.atlassian.jira.issue.AttachmentManager
+- jiraAuthenticationContext: com.atlassian.jira.security.JiraAuthenticationContext
+- projectRoleManager: com.atlassian.jira.security.roles.ProjectRoleManager
+
+Post-Function:
+- issue: com.atlassian.jira.issue.MutableIssue
+- issueImpl: com.atlassian.jira.issue.IssueImpl
+- transientVars: java.util.Map
+- args: java.util.Map
+- ps: com.opensymphony.module.propertyset.PropertySet
+
+## Examples
+
+- Conditions
+- Validators
+- Functions
+
+## Build versions
+
+To install manually you can find build versions here.
+
+## Contribution
+
+Any issues and suggestions put here.
+Please, contribute!
+
+## Changelog:
+- 1.0.0: Init version

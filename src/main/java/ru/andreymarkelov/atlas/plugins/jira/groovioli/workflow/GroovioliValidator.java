@@ -1,6 +1,7 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow;
 
 import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.IssueImpl;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.workflow.InvalidInputException;
 import com.opensymphony.workflow.Validator;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidatorFactory.FIELD;
@@ -21,13 +23,23 @@ public class GroovioliValidator implements Validator {
         this.scriptManager = scriptManager;
     }
 
+    @Override
     public void validate(Map transientVars, Map args, PropertySet ps) throws InvalidInputException {
-        String word = (String) transientVars.get(FIELD);
         Issue issue = (Issue) transientVars.get("issue");
-        String description = issue.getDescription();
+        String script = (String) args.get(FIELD);
 
-        if (description == null || !description.contains(word)) {
-            throw new InvalidInputException("Issue must contain the word '" + word + "' in the description");
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("issue", issue);
+        parameters.put("issueImpl", IssueImpl.class.cast(issue));
+        parameters.put("transientVars", transientVars);
+        parameters.put("args", args);
+        parameters.put("ps", ps);
+
+        try {
+            scriptManager.executeScript(script, parameters);
+        } catch (Exception ex) {
+            log.error("Error", ex);
+            throw new InvalidInputException(ex);
         }
     }
 }

@@ -23,9 +23,10 @@ public class GroovioliFunction extends AbstractJiraFunctionProvider {
         this.scriptManager = scriptManager;
     }
 
+    @Override
     public void execute(Map transientVars, Map args, PropertySet ps) throws WorkflowException {
         MutableIssue issue = getIssue(transientVars);
-        String script = (String) transientVars.get(FIELD);
+        String script = (String) args.get(FIELD);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("issue", issue);
