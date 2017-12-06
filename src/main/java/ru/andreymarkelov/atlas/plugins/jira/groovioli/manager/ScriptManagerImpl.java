@@ -19,6 +19,7 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import org.codehaus.groovy.control.CompilationFailedException;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -36,14 +37,7 @@ public class ScriptManagerImpl implements ScriptManager {
                 }
             });
 
-    private final GroupManager groupManager;
-    private final ProjectRoleManager projectRoleManager;
-    private final WatcherManager watcherManager;
-    private final UserManager userManager;
-    private final CustomFieldManager customFieldManager;
-    private final WorkflowTransitionUtil workflowTransitionUtil;
-    private final AttachmentManager attachmentManager;
-    private final JiraAuthenticationContext jiraAuthenticationContext;
+    private final Map<String, Object> baseVariables;
 
     public ScriptManagerImpl(
             GroupManager groupManager,
@@ -53,14 +47,15 @@ public class ScriptManagerImpl implements ScriptManager {
             CustomFieldManager customFieldManager,
             AttachmentManager attachmentManager,
             JiraAuthenticationContext jiraAuthenticationContext) {
-        this.groupManager = groupManager;
-        this.projectRoleManager = projectRoleManager;
-        this.watcherManager = watcherManager;
-        this.userManager = userManager;
-        this.customFieldManager = customFieldManager;
-        this.workflowTransitionUtil = JiraUtils.loadComponent(WorkflowTransitionUtilImpl.class);
-        this.attachmentManager = attachmentManager;
-        this.jiraAuthenticationContext = jiraAuthenticationContext;
+        baseVariables = new HashMap<>();
+        baseVariables.put("groupManager", groupManager);
+        baseVariables.put("watcherManager", watcherManager);
+        baseVariables.put("userManager", userManager);
+        baseVariables.put("customFieldManager", customFieldManager);
+        baseVariables.put("workflowTransitionUtil", JiraUtils.loadComponent(WorkflowTransitionUtilImpl.class));
+        baseVariables.put("attachmentManager", attachmentManager);
+        baseVariables.put("jiraAuthenticationContext", jiraAuthenticationContext);
+        baseVariables.put("projectRoleManager", projectRoleManager);
     }
 
     @Override
@@ -86,20 +81,11 @@ public class ScriptManagerImpl implements ScriptManager {
     }
 
     private Binding fromMap(Map<String, Object> parameters) {
-        Binding binding = new Binding();
-        binding.setVariable("groupManager", groupManager);
-        binding.setVariable("watcherManager", watcherManager);
-        binding.setVariable("userManager", userManager);
-        binding.setVariable("customFieldManager", customFieldManager);
-        binding.setVariable("workflowTransitionUtil", workflowTransitionUtil);
-        binding.setVariable("attachmentManager", attachmentManager);
-        binding.setVariable("jiraAuthenticationContext", jiraAuthenticationContext);
-        binding.setVariable("projectRoleManager", projectRoleManager);
+        Map variables = new HashMap(baseVariables);
+
         if (parameters != null) {
-            for (Map.Entry<String, Object> entry : parameters.entrySet()) {
-                binding.setVariable(entry.getKey(), entry.getValue());
-            }
+            variables.putAll(parameters);
         }
-        return binding;
+        return new Binding(variables);
     }
 }
