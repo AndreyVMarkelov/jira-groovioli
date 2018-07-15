@@ -1,5 +1,8 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.atlassian.jira.issue.Issue;
 import com.atlassian.jira.issue.IssueImpl;
 import com.atlassian.jira.workflow.condition.AbstractJiraCondition;
@@ -8,9 +11,6 @@ import com.opensymphony.workflow.WorkflowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class GroovioliCondition extends AbstractJiraCondition {
     private static final Logger log = LoggerFactory.getLogger(GroovioliCondition.class);
