@@ -1,5 +1,10 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.manager;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 import com.atlassian.jira.issue.AttachmentManager;
 import com.atlassian.jira.issue.CustomFieldManager;
 import com.atlassian.jira.issue.watchers.WatcherManager;
@@ -8,7 +13,6 @@ import com.atlassian.jira.security.groups.GroupManager;
 import com.atlassian.jira.security.roles.ProjectRoleManager;
 import com.atlassian.jira.user.util.UserManager;
 import com.atlassian.jira.util.JiraUtils;
-import com.atlassian.jira.workflow.WorkflowTransitionUtil;
 import com.atlassian.jira.workflow.WorkflowTransitionUtilImpl;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -18,11 +22,6 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import org.codehaus.groovy.control.CompilationFailedException;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class ScriptManagerImpl implements ScriptManager {
     private final GroovyShell shell = new GroovyShell(this.getClass().getClassLoader());
@@ -59,7 +58,9 @@ public class ScriptManagerImpl implements ScriptManager {
     }
 
     @Override
-    public Object executeScript(String groovyScript, Map<String, Object> parameters) throws WorkflowException {
+    public Object executeScript(
+            String groovyScript,
+            Map<String, Object> parameters) throws WorkflowException {
         try {
             Script script = scriptCache.get(groovyScript);
             script.setBinding(fromMap(parameters));
@@ -74,7 +75,6 @@ public class ScriptManagerImpl implements ScriptManager {
         try {
             shell.parse(groovyScript);
         } catch (CompilationFailedException e) {
-            //e.getUnit().getErrorCollector();
             return e.getMessage();
         }
         return null;
@@ -82,7 +82,6 @@ public class ScriptManagerImpl implements ScriptManager {
 
     private Binding fromMap(Map<String, Object> parameters) {
         Map variables = new HashMap(baseVariables);
-
         if (parameters != null) {
             variables.putAll(parameters);
         }

@@ -1,5 +1,8 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.atlassian.jira.issue.IssueImpl;
 import com.atlassian.jira.issue.MutableIssue;
 import com.atlassian.jira.workflow.function.issue.AbstractJiraFunctionProvider;
@@ -8,9 +11,6 @@ import com.opensymphony.workflow.WorkflowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliFunctionFactory.FIELD;
 
@@ -34,6 +34,7 @@ public class GroovioliFunction extends AbstractJiraFunctionProvider {
         parameters.put("transientVars", transientVars);
         parameters.put("args", args);
         parameters.put("ps", ps);
+        parameters.put("log", log);
 
         try {
             scriptManager.executeScript(script, parameters);

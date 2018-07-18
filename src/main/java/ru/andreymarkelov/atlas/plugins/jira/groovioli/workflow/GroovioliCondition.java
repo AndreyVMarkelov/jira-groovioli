@@ -32,6 +32,7 @@ public class GroovioliCondition extends AbstractJiraCondition {
         parameters.put("transientVars", transientVars);
         parameters.put("args", args);
         parameters.put("ps", ps);
+        parameters.put("log", log);
 
         try {
             return (Boolean) scriptManager.executeScript(script, parameters);
