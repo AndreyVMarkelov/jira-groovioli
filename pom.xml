@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.andreymarkelov.atlas.plugins</groupId>
     <artifactId>groovioli</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>Groovioli</name>

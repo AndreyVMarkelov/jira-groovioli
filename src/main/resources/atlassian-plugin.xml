@@ -4,10 +4,11 @@
         <description>${project.description}</description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}"/>
-        <param name="plugin-icon">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/pluginIcon.png</param>
-        <param name="plugin-logo">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/pluginLogo.png</param>
+        <param name="plugin-logo">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/groovioli-logo.png</param>
+        <param name="plugin-icon">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/groovioli-icon.png</param>
         <param name="vendor-icon">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/32.jpg</param>
         <param name="vendor-logo">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/144.jpg</param>
+        <param name="plugin-banner">/ru/andreymarkelov/atlas/plugins/jira/groovioli/images/banner.png</param>
         <param name="atlassian-data-center-compatible">true</param>
     </plugin-info>
 

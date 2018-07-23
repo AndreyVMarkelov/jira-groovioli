@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.atlassian.jira.issue.AttachmentManager;
 import com.atlassian.jira.issue.CustomFieldManager;
+import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.issue.link.IssueLinkManager;
 import com.atlassian.jira.issue.watchers.WatcherManager;
 import com.atlassian.jira.security.JiraAuthenticationContext;
@@ -47,7 +48,8 @@ public class ScriptManagerImpl implements ScriptManager {
             CustomFieldManager customFieldManager,
             AttachmentManager attachmentManager,
             JiraAuthenticationContext jiraAuthenticationContext,
-            IssueLinkManager issueLinkManager) {
+            IssueLinkManager issueLinkManager,
+            CommentManager commentManager) {
         baseVariables = new HashMap<>();
         baseVariables.put("groupManager", groupManager);
         baseVariables.put("watcherManager", watcherManager);
@@ -58,6 +60,7 @@ public class ScriptManagerImpl implements ScriptManager {
         baseVariables.put("jiraAuthenticationContext", jiraAuthenticationContext);
         baseVariables.put("projectRoleManager", projectRoleManager);
         baseVariables.put("issueLinkManager", issueLinkManager);
+        baseVariables.put("commentManager", commentManager);
     }
 
     @Override
