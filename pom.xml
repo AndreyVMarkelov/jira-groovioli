@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.andreymarkelov.atlas.plugins</groupId>
     <artifactId>groovioli</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>Groovioli</name>
@@ -41,7 +41,25 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-            <version>2.4.13</version>
+            <version>${groovy.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.activeobjects</groupId>
+            <artifactId>activeobjects-plugin</artifactId>
+            <version>${ao.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.activeobjects</groupId>
+            <artifactId>activeobjects-spi</artifactId>
+            <version>${ao.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.activeobjects</groupId>
+            <artifactId>activeobjects-confluence-spi</artifactId>
+            <version>${ao.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -87,6 +105,8 @@
     <properties>
         <jira.version>7.0.0</jira.version>
         <amps.version>6.3.6</amps.version>
+        <ao.version>0.24.0</ao.version>
+        <groovy.version>2.4.13</groovy.version>
         <useFastdevCli>false</useFastdevCli>
     </properties>
 </project>

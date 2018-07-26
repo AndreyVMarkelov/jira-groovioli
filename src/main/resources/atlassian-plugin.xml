@@ -23,10 +23,19 @@
         <resource type="download" name="images/" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/images"/>
         <context>groovioli</context>
     </web-resource>
+    <web-resource key="groovioli-listener-resources" name="Jira Bipper Profile Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <resource name="groovioli-listeners.js" type="download" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/js/groovioli-listeners.js"/>
+        <context>groovioli-listeners</context>
+    </web-resource>
 
     <!-- Components -->
-    <component key="groovioli-script-manager" name="Groovioli Script Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManagerImpl">
+    <component key="groovioli-scripts-manager" name="Groovioli Scripts Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager</interface>
+    </component>
+    <component key="groovioli-listeners-manager" name="Groovioli Listeners Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManagerImpl">
+        <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager</interface>
     </component>
 
     <workflow-condition key="groovioli-condition" name="Groovioli Condition" i18n-name-key="groovioli-condition.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliConditionFactory">
@@ -53,4 +62,26 @@
         <resource type="velocity" name="input-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/groovioli-validator-input.vm"/>
         <resource type="velocity" name="edit-parameters" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/workflow/validators/groovioli-validator-input.vm"/>
     </workflow-validator>
+
+    <!-- Web Items -->
+    <web-section key="groovioli-admin-section" name="Groovioli Admin Section" location="admin_plugins_menu">
+        <label key="groovioli-admin.section"/>
+        <tooltip key="groovioli-admin.section.tooltip"/>
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsAdminCondition"/>
+        </conditions>
+    </web-section>
+    <web-item key="groovioli-admin-listeners-link" name="Groovioli Listeners" section="admin_plugins_menu/groovioli-admin-section" weight="200">
+        <label key="groovioli-admin.section.listeners"/>
+        <description key="groovioli-admin.section.listeners.desc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">admin</param>
+        </condition>
+        <link linkId="groovioli-admin-listeners-link">/secure/ListenersSetupAction!default.jspa</link>
+    </web-item>
+
+    <!-- AO -->
+    <ao key="groovioli-ao-module" name="Groovioli AO Module">
+        <entity>ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.ListenerDataAO</entity>
+    </ao>
 </atlassian-plugin>

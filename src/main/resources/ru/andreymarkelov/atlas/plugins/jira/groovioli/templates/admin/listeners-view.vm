@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>$i18n.getText("groovioli-admin.action.listeners.title")</title>
+    <meta content="admin" name="decorator"/>
+    <meta content="admin_plugins_menu/groovioli-admin-section" name="admin.active.section">
+    <meta content="groovioli-admin-listeners-link" name="admin.active.tab">
+    $webResourceManager.requireResource("jira.webresources:global-static")
+    $webResourceManager.requireResource("jira.webresources:jira-global")
+    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+    $webResourceManager.requireResourcesForContext("groovioli-listeners")
+</head>
+<body class="aui">
+<section id="content" role="main">
+    <header class="aui-page-header">
+        <div class="aui-page-header-inner">
+            <div class="aui-page-header-main">
+                <h2>$i18n.getText("groovioli-admin.action.listeners.title")</h2>
+            </div>
+            <div class="aui-page-header-actions">
+                <a class="help-lnk" href="https://docs.atlassian.com/jira/jadm-docs-077/Defining+issue+type+field+values" title="Get online help about Defining issue type field values" data-helplink="online" target="_jirahelp">
+                    <span class="aui-icon aui-icon-small aui-iconfont-help">Get help!</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+                <table id="up-bipper-contacts-table"></table>
+            </section>
+        </div>
+    </div>
+</section>
+</body>
+</html>
