@@ -77,11 +77,27 @@
         <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
             <param name="permission">admin</param>
         </condition>
-        <link linkId="groovioli-admin-listeners-link">/secure/ListenersSetupAction!default.jspa</link>
+        <link linkId="groovioli-admin-listeners-link">/secure/ListenersSetupAction.jspa</link>
     </web-item>
 
     <!-- AO -->
     <ao key="groovioli-ao-module" name="Groovioli AO Module">
         <entity>ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.ListenerDataAO</entity>
     </ao>
+
+    <!-- Web Actions -->
+    <webwork1 key="groovioli-actions" name="Groovioli Web Actions" class="java.lang.Object">
+        <actions>
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.ListenersSetupAction" alias="ListenersSetupAction">
+                <view name="success">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/listeners-view.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.ListenersAddAction" alias="ListenersAddAction">
+                <view name="input">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/listeners-add.vm</view>
+                <view name="error">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/listeners-add.vm</view>
+                <view name="success">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/listeners-view.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
 </atlassian-plugin>

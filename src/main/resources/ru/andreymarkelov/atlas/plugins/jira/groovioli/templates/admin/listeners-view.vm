@@ -17,6 +17,12 @@
                 <h2>$i18n.getText("groovioli-admin.action.listeners.title")</h2>
             </div>
             <div class="aui-page-header-actions">
+                <div class="aui-buttons">
+                    <a id="add-listener-link" class="aui-button" href="ListenersAddAction!default.jspa" title="Add Listener">
+                        <span class="aui-icon aui-icon-small aui-iconfont-add"></span>
+                        $i18n.getText("groovioli-admin.action.listeners.addbutton")
+                    </a>
+                </div>
                 <a class="help-lnk" href="https://docs.atlassian.com/jira/jadm-docs-077/Defining+issue+type+field+values" title="Get online help about Defining issue type field values" data-helplink="online" target="_jirahelp">
                     <span class="aui-icon aui-icon-small aui-iconfont-help">Get help!</span>
                 </a>
@@ -26,7 +32,9 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
-                <table id="up-bipper-contacts-table"></table>
+
+
+
             </section>
         </div>
     </div>

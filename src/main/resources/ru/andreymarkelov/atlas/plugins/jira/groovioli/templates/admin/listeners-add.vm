@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>$i18n.getText("groovioli-admin.action.addlistener.title")</title>
+    <meta content="admin" name="decorator"/>
+    <meta content="admin_plugins_menu/groovioli-admin-section" name="admin.active.section">
+    <meta content="groovioli-admin-listeners-link" name="admin.active.tab">
+    $webResourceManager.requireResource("jira.webresources:global-static")
+    $webResourceManager.requireResource("jira.webresources:jira-global")
+    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+    $webResourceManager.requireResourcesForContext("groovioli-listeners")
+</head>
+<body class="aui">
+<section id="content" role="main">
+    <header class="aui-page-header">
+        <div class="aui-page-header-inner">
+            <div class="aui-page-header-main">
+                <h2>$i18n.getText("groovioli-admin.action.addlistener.title")</h2>
+            </div>
+        </div>
+    </header>
+    <div class="aui-page-panel">
+        <div class="aui-page-panel-inner">
+            <section class="aui-page-panel-content">
+                <form action="ListenersAddAction.jspa" method="post" class="aui">
+                    <input type="hidden" name="atl_token" value="${atl_token}"/>
+                    <div class="field-group">
+                        <label for="note">$i18n.getText("groovioli-admin.action.addlistener.note")</label>
+                        <input class="text long-field" type="text" id="note" name="note" value="$!{note}"/>
+                        #if($action.getErrors().containsKey("note"))<div class="error">$action.getErrors().get("note")</div>#end
+                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.note.desc")</div>
+                    </div>
+                    <div class="field-group">
+                        <label for="projects">$i18n.getText("groovioli-admin.action.addlistener.projects")</label>
+                        <select id="projects" name="projects" multiple="multiple">
+                            #foreach($project in $action.getAllProjects())
+                                <option #if($action.isSelectedProject($project.getId())) selected="selected" #end value="$project.getId()">$project.getName()</option>
+                            #end
+                        </select>
+                        #if($action.getErrors().containsKey("projects"))<div class="error">$action.getErrors().get("projects")</div>#end
+                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.projects.desc")</div>
+                    </div>
+                    <div class="field-group">
+                        <label for="events">$i18n.getText("groovioli-admin.action.addlistener.events")</label>
+
+                        <select id="events" name="events" multiple="multiple">
+                            #foreach($event in $action.getAllEvents())
+                                <option #if($action.isSelectedProject($event)) selected="selected" #end value="$event">$event</option>
+                            #end
+                        </select>
+                        #if($action.getErrors().containsKey("events"))<div class="error">$action.getErrors().get("events")</div>#end
+                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.events.desc")</div>
+                    </div>
+                    <div class="field-group">
+                        <label for="script">$i18n.getText("groovioli-admin.action.addlistener.script")</label>
+                        <textarea class="textarea" rows="20" cols="120" style="max-width: 500px;" id="script" name="script">$!{script}</textarea>
+                        #if($action.getErrors().containsKey("script"))<div class="error">$action.getErrors().get("script")</div>#end
+                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.script.desc")</div>
+                    </div>
+                    <div class="buttons-container">
+                        <div class="buttons">
+                            <input class="button submit" type="submit" value='$i18n.getText("groovioli-admin.action.addlistener.savebutton")'/>
+                            <a class="cancel" href="ListenersSetupAction.jspa">
+                                $i18n.getText("groovioli-admin.action.addlistener.cancelbutton")
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</section>
+</body>
+</html>
