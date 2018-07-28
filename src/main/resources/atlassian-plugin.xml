@@ -26,6 +26,7 @@
     <web-resource key="groovioli-listener-resources" name="Jira Bipper Profile Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
         <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <dependency>com.atlassian.auiplugin:aui-select2</dependency>
         <resource name="groovioli-listeners.js" type="download" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/js/groovioli-listeners.js"/>
         <context>groovioli-listeners</context>
     </web-resource>
@@ -37,6 +38,15 @@
     <component key="groovioli-listeners-manager" name="Groovioli Listeners Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager</interface>
     </component>
+    <component key="groovioli-listener" name="Groovioli Event Listener" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.listeners.GroovioliListener">
+        <description>This service listens Jira events.</description>
+    </component>
+
+    <!-- Component Imports -->
+    <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory"/>
+    <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
+    <component-import key="ao" interface="com.atlassian.activeobjects.external.ActiveObjects"/>
+    <component-import key="transactionTemplate" interface="com.atlassian.sal.api.transaction.TransactionTemplate"/>
 
     <workflow-condition key="groovioli-condition" name="Groovioli Condition" i18n-name-key="groovioli-condition.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliConditionFactory">
         <description key="groovioli-condition.description">This condition executes groovy script.</description>

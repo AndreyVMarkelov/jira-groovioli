@@ -30,7 +30,7 @@
                         <div class="description">$i18n.getText("groovioli-admin.action.addlistener.note.desc")</div>
                     </div>
                     <div class="field-group">
-                        <label for="projects">$i18n.getText("groovioli-admin.action.addlistener.projects")</label>
+                        <label for="projects">$i18n.getText("groovioli-admin.action.addlistener.projects")<span class="aui-icon icon-required"> required</span></label>
                         <select id="projects" name="projects" multiple="multiple">
                             #foreach($project in $action.getAllProjects())
                                 <option #if($action.isSelectedProject($project.getId())) selected="selected" #end value="$project.getId()">$project.getName()</option>
@@ -40,18 +40,17 @@
                         <div class="description">$i18n.getText("groovioli-admin.action.addlistener.projects.desc")</div>
                     </div>
                     <div class="field-group">
-                        <label for="events">$i18n.getText("groovioli-admin.action.addlistener.events")</label>
-
-                        <select id="events" name="events" multiple="multiple">
+                        <label for="eventType">$i18n.getText("groovioli-admin.action.addlistener.eventType")<span class="aui-icon icon-required"> required</span></label>
+                        <select id="eventType" name="eventType">
                             #foreach($event in $action.getAllEvents())
-                                <option #if($action.isSelectedProject($event)) selected="selected" #end value="$event">$event</option>
+                                <option #if($action.isSelectedEvent($event)) selected="selected" #end value="$event">$event</option>
                             #end
                         </select>
-                        #if($action.getErrors().containsKey("events"))<div class="error">$action.getErrors().get("events")</div>#end
-                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.events.desc")</div>
+                        #if($action.getErrors().containsKey("eventType"))<div class="error">$action.getErrors().get("eventType")</div>#end
+                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.eventType.desc")</div>
                     </div>
                     <div class="field-group">
-                        <label for="script">$i18n.getText("groovioli-admin.action.addlistener.script")</label>
+                        <label for="script">$i18n.getText("groovioli-admin.action.addlistener.script")<span class="aui-icon icon-required"> required</span></label>
                         <textarea class="textarea" rows="20" cols="120" style="max-width: 500px;" id="script" name="script">$!{script}</textarea>
                         #if($action.getErrors().containsKey("script"))<div class="error">$action.getErrors().get("script")</div>#end
                         <div class="description">$i18n.getText("groovioli-admin.action.addlistener.script.desc")</div>

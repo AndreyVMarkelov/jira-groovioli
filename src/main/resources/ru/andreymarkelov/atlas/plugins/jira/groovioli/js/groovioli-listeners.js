@@ -1,13 +1,5 @@
 AJS.toInit(function () {
-    new AJS.MultiSelect({
-        element: jQuery("#projects"),
-        itemAttrDisplayed: "label",
-        showDropdownButton: true
-    });
+    AJS.$("#projects").auiSelect2();
 
-    new AJS.MultiSelect({
-        element: jQuery("#events"),
-        itemAttrDisplayed: "label",
-        showDropdownButton: true
-    });
+    AJS.$("#eventType").auiSelect2();
 });
