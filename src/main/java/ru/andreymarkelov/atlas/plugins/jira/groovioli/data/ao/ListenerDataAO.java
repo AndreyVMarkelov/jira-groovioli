@@ -1,5 +1,7 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao;
 
+import java.util.Date;
+
 import net.java.ao.Entity;
 import net.java.ao.Preload;
 import net.java.ao.schema.Indexed;
@@ -10,8 +12,8 @@ public interface ListenerDataAO extends Entity {
     void setNote(String note);
 
     @Indexed
-    String getProject();
-    void setProject(String project);
+    String getProjectIds();
+    void setProjectIds(String projectIds);
 
     @Indexed
     String getEvent();
@@ -19,4 +21,7 @@ public interface ListenerDataAO extends Entity {
 
     String getScript();
     void setScript(String script);
+
+    Date getCreated();
+    void setCreated(Date created);
 }

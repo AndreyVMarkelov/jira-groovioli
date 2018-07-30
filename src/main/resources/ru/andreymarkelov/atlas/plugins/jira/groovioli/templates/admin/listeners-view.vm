@@ -32,8 +32,35 @@
     <div class="aui-page-panel">
         <div class="aui-page-panel-inner">
             <section class="aui-page-panel-content">
-
-
+                <table class="aui">
+                    <thead>
+                    <tr>
+                        <th id="note">$i18n.getText("groovioli-admin.action.listeners.note")</th>
+                        <th id="projects">$i18n.getText("groovioli-admin.action.listeners.projects")</th>
+                        <th id="eventType">$i18n.getText("groovioli-admin.action.listeners.eventType")</th>
+                        <th id="actions">$i18n.getText("groovioli-admin.action.listeners.actions")</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #foreach($item in $listenerDataList)
+                    <tr>
+                        <td headers="note">$!{item.note}</td>
+                        <td headers="projects">
+                            #foreach($projectId in $item.projectIds)
+                            <span class="aui-lozenge aui-lozenge-current">$action.resolveProjectName($projectId)</span>
+                            #end
+                        </td>
+                        <td headers="eventType">$!{item.event}</td>
+                        <td class="action" headers="actions">
+                            <ul class="menu">
+                                <li><a href="#">$i18n.getText("groovioli-admin.action.listeners.actions.view")</a></li>
+                                <li><a href="#">$i18n.getText("groovioli-admin.action.listeners.actions.delete")</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
 
             </section>
         </div>

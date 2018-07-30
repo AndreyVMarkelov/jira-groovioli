@@ -1,6 +1,5 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.atlassian.jira.event.DashboardViewEvent;
@@ -14,13 +13,16 @@ import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import org.apache.commons.lang3.StringUtils;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
+
+import static java.util.Arrays.asList;
 
 import static com.atlassian.jira.permission.GlobalPermissionKey.ADMINISTER;
 
 public class ListenersAddAction extends JiraWebActionSupport {
-    private static final List<String> allEvents = Arrays.asList(
+    private static final List<String> allEvents = asList(
             IssueEvent.class.getSimpleName(),
             IssueViewEvent.class.getSimpleName(),
             DashboardViewEvent.class.getSimpleName(),
@@ -33,7 +35,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     private final ProjectManager projectManager;
 
     private String note;
-    private String[] projects;
+    private Long[] projects;
     private String eventType;
     private String script;
 
@@ -60,9 +62,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
         if (!hasAdminPermission()) {
             return PERMISSION_VIOLATION_RESULT;
         }
-
-//        for ()
-  //      listenerDataManager.createListener(new ListenerData(null, ));
+        listenerDataManager.createListener(new ListenerData(note, asList(projects), eventType, script));
         return getRedirect("ListenersSetupAction.jspa");
     }
 
@@ -84,10 +84,10 @@ public class ListenersAddAction extends JiraWebActionSupport {
         return projectManager.getProjects();
     }
 
-    public boolean isSelectedProject(Long checkProject) {
+    public boolean isSelectedProject(Long checkProjectId) {
         if (projects != null) {
-            for (String project : projects) {
-                if (project.equals(checkProject.toString())) {
+            for (Long projectId : projects) {
+                if (projectId.equals(checkProjectId)) {
                     return true;
                 }
             }
@@ -114,11 +114,11 @@ public class ListenersAddAction extends JiraWebActionSupport {
         this.note = note;
     }
 
-    public String[] getProjects() {
+    public Long[] getProjects() {
         return projects;
     }
 
-    public void setProjects(String[] projects) {
+    public void setProjects(Long[] projects) {
         this.projects = projects;
     }
 

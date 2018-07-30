@@ -1,20 +1,29 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.data;
 
+import java.util.Date;
+import java.util.List;
+
 public class ListenerData {
     private Integer id;
     private String note;
-    private String project;
+    private List<Long> projectIds;
     private String event;
     private String script;
+    private Date created;
 
     public ListenerData() {}
 
-    public ListenerData(Integer id, String note, String project, String event, String script) {
+    public ListenerData(String note, List<Long> projectIds, String event, String script) {
+        this(null, note, projectIds, event, script, new Date());
+    }
+
+    public ListenerData(Integer id, String note, List<Long> projectIds, String event, String script, Date created) {
         this.id = id;
         this.note = note;
-        this.project = project;
+        this.projectIds = projectIds;
         this.event = event;
         this.script = script;
+        this.created = created;
     }
 
     public Integer getId() {
@@ -33,12 +42,12 @@ public class ListenerData {
         this.note = note;
     }
 
-    public String getProject() {
-        return project;
+    public List<Long> getProjectIds() {
+        return projectIds;
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setProjectIds(List<Long> projectIds) {
+        this.projectIds = projectIds;
     }
 
     public String getEvent() {
@@ -57,14 +66,23 @@ public class ListenerData {
         this.script = script;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
     @Override
     public String toString() {
         return "ListenerData{" +
                 "id=" + id +
                 ", note='" + note + '\'' +
-                ", project='" + project + '\'' +
+                ", projectIds=" + projectIds +
                 ", event='" + event + '\'' +
                 ", script='" + script + '\'' +
+                ", created=" + created +
                 '}';
     }
 }
