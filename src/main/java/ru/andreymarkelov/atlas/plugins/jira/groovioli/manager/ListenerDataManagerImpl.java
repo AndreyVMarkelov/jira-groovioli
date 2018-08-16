@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.atlassian.activeobjects.external.ActiveObjects;
 import net.java.ao.Query;
-import org.apache.commons.lang3.StringUtils;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.ListenerDataAO;
 
@@ -19,12 +18,22 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
     @Override
     public void createListener(ListenerData listenerData) {
         ListenerDataAO listenerDataAO = ao.create(ListenerDataAO.class);
-        listenerDataAO.setProjectIds(projectIdsToStr(listenerData.getProjectIds()));
+        listenerDataAO.setProjectId(listenerData.getProjectId());
         listenerDataAO.setEvent(listenerData.getEvent());
         listenerDataAO.setNote(listenerData.getNote());
         listenerDataAO.setScript(listenerData.getScript());
         listenerDataAO.setCreated(listenerData.getCreated());
         listenerDataAO.save();
+    }
+
+    @Override
+    public void deleteListener(Integer listenerId) {
+        if (listenerId != null) {
+            ListenerDataAO listenerDataAO = ao.get(ListenerDataAO.class, listenerId);
+            if (listenerDataAO != null) {
+                ao.delete(listenerDataAO);
+            }
+        }
     }
 
     @Override
@@ -36,7 +45,7 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
                 result.add(new ListenerData(
                         listenerDataAO.getID(),
                         listenerDataAO.getNote(),
-                        projectIdsFromStr(listenerDataAO.getProjectIds()),
+                        listenerDataAO.getProjectId(),
                         listenerDataAO.getEvent(),
                         listenerDataAO.getScript(),
                         listenerDataAO.getCreated()
@@ -44,18 +53,5 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
             }
         }
         return result;
-    }
-
-    private static List<Long> projectIdsFromStr(String projectIdsStr) {
-        String[] tokens = StringUtils.split(projectIdsStr, ",");
-        List<Long> res = new ArrayList<>(tokens.length);
-        for (int i = 0; i < tokens.length; i++) {
-            res.add(Long.valueOf(tokens[i]));
-        }
-        return res;
-    }
-
-    private static String projectIdsToStr(List<Long> projectIds) {
-        return StringUtils.join(projectIds, ",");
     }
 }

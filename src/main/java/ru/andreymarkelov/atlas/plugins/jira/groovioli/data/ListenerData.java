@@ -1,26 +1,25 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.data;
 
 import java.util.Date;
-import java.util.List;
 
 public class ListenerData {
     private Integer id;
     private String note;
-    private List<Long> projectIds;
+    private Long projectId;
     private String event;
     private String script;
     private Date created;
 
     public ListenerData() {}
 
-    public ListenerData(String note, List<Long> projectIds, String event, String script) {
-        this(null, note, projectIds, event, script, new Date());
+    public ListenerData(String note, Long projectId, String event, String script) {
+        this(null, note, projectId, event, script, new Date());
     }
 
-    public ListenerData(Integer id, String note, List<Long> projectIds, String event, String script, Date created) {
+    public ListenerData(Integer id, String note, Long projectId, String event, String script, Date created) {
         this.id = id;
         this.note = note;
-        this.projectIds = projectIds;
+        this.projectId = projectId;
         this.event = event;
         this.script = script;
         this.created = created;
@@ -42,12 +41,12 @@ public class ListenerData {
         this.note = note;
     }
 
-    public List<Long> getProjectIds() {
-        return projectIds;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public void setProjectIds(List<Long> projectIds) {
-        this.projectIds = projectIds;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public String getEvent() {
@@ -79,7 +78,7 @@ public class ListenerData {
         return "ListenerData{" +
                 "id=" + id +
                 ", note='" + note + '\'' +
-                ", projectIds=" + projectIds +
+                ", projectId=" + projectId +
                 ", event='" + event + '\'' +
                 ", script='" + script + '\'' +
                 ", created=" + created +

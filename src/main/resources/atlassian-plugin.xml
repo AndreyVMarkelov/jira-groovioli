@@ -108,6 +108,9 @@
                 <view name="success">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/listeners-view.vm</view>
                 <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
             </action>
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.ListenersDeleteAction" alias="ListenersDeleteAction">
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
         </actions>
     </webwork1>
 </atlassian-plugin>

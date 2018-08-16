@@ -35,7 +35,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     private final ProjectManager projectManager;
 
     private String note;
-    private Long[] projects;
+    private Long projectId;
     private String eventType;
     private String script;
 
@@ -62,17 +62,13 @@ public class ListenersAddAction extends JiraWebActionSupport {
         if (!hasAdminPermission()) {
             return PERMISSION_VIOLATION_RESULT;
         }
-        listenerDataManager.createListener(new ListenerData(note, asList(projects), eventType, script));
+        listenerDataManager.createListener(new ListenerData(note, projectId, eventType, script));
         return getRedirect("ListenersSetupAction.jspa");
     }
 
     @Override
     protected void doValidation() {
         super.doValidation();
-
-        if (projects == null || projects.length == 0) {
-            addError("projects", getText("groovioli-admin.action.addlistener.projects.error.empty"));
-        }
 
         String scriptError = scriptManager.validateSyntax(script);
         if (StringUtils.isNotBlank(scriptError)) {
@@ -85,14 +81,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     }
 
     public boolean isSelectedProject(Long checkProjectId) {
-        if (projects != null) {
-            for (Long projectId : projects) {
-                if (projectId.equals(checkProjectId)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return (projectId != null) ? projectId.equals(checkProjectId) : false;
     }
 
     public List<String> getAllEvents() {
@@ -100,10 +89,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     }
 
     public boolean isSelectedEvent(String checkEvent) {
-        if (eventType != null) {
-            return eventType.equals(checkEvent);
-        }
-        return false;
+        return (eventType != null) ? eventType.equals(checkEvent) : false;
     }
 
     public String getNote() {
@@ -114,12 +100,12 @@ public class ListenersAddAction extends JiraWebActionSupport {
         this.note = note;
     }
 
-    public Long[] getProjects() {
-        return projects;
+    public Long getProjectId() {
+        return projectId;
     }
 
-    public void setProjects(Long[] projects) {
-        this.projects = projects;
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
     }
 
     public String getEventType() {

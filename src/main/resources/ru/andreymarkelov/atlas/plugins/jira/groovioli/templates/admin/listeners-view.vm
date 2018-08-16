@@ -36,8 +36,8 @@
                     <thead>
                     <tr>
                         <th id="note">$i18n.getText("groovioli-admin.action.listeners.note")</th>
-                        <th id="projects">$i18n.getText("groovioli-admin.action.listeners.projects")</th>
-                        <th id="eventType">$i18n.getText("groovioli-admin.action.listeners.eventType")</th>
+                        <th id="project">$i18n.getText("groovioli-admin.action.listeners.projectId")</th>
+                        <th id="event">$i18n.getText("groovioli-admin.action.listeners.eventType")</th>
                         <th id="actions">$i18n.getText("groovioli-admin.action.listeners.actions")</th>
                     </tr>
                     </thead>
@@ -45,24 +45,23 @@
                     #foreach($item in $listenerDataList)
                     <tr>
                         <td headers="note">$!{item.note}</td>
-                        <td headers="projects">
-                            #foreach($projectId in $item.projectIds)
-                            <span class="aui-lozenge aui-lozenge-current">$action.resolveProjectName($projectId)</span>
-                            #end
-                        </td>
-                        <td headers="eventType">$!{item.event}</td>
+                        <td headers="project"><span class="aui-lozenge aui-lozenge-current">$action.resolveProjectName($!{item.projectId})</span></td>
+                        <td headers="event">$!{item.event}</td>
                         <td class="action" headers="actions">
                             <ul class="menu">
-                                <li><a href="#">$i18n.getText("groovioli-admin.action.listeners.actions.view")</a></li>
-                                <li><a href="#">$i18n.getText("groovioli-admin.action.listeners.actions.delete")</a></li>
+                                <li><button data-listenerId="$!{item.id}" class="aui-button aui-button-link grovioli-view-listener">$i18n.getText("groovioli-admin.action.listeners.actions.view")</button></li>
+                                <li><button data-listenerId="$!{item.id}"  class="aui-button aui-button-link grovioli-delete-listener">$i18n.getText("groovioli-admin.action.listeners.actions.delete")</button></li>
                             </ul>
                         </td>
                     </tr>
                     #end
                     </tbody>
                 </table>
-
             </section>
+            <form id="groovioli-listener-deleteform" action="ListenersDeleteAction.jspa" method="post" class="hidden">
+                <input type="hidden" name="atl_token" value="${atl_token}"/>
+                <input type="hidden" id="listenerId" name="listenerId" value=""/>
+            </form>
         </div>
     </div>
 </section>

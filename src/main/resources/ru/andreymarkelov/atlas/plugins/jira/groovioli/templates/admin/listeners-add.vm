@@ -30,14 +30,14 @@
                         <div class="description">$i18n.getText("groovioli-admin.action.addlistener.note.desc")</div>
                     </div>
                     <div class="field-group">
-                        <label for="projects">$i18n.getText("groovioli-admin.action.addlistener.projects")<span class="aui-icon icon-required"> required</span></label>
-                        <select id="projects" name="projects" multiple="multiple">
+                        <label for="projectId">$i18n.getText("groovioli-admin.action.addlistener.projectId")<span class="aui-icon icon-required"> required</span></label>
+                        <select id="projectId" name="projectId">
                             #foreach($project in $action.getAllProjects())
                                 <option #if($action.isSelectedProject($project.getId())) selected="selected" #end value="$project.getId()">$project.getName()</option>
                             #end
                         </select>
-                        #if($action.getErrors().containsKey("projects"))<div class="error">$action.getErrors().get("projects")</div>#end
-                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.projects.desc")</div>
+                        #if($action.getErrors().containsKey("projectId"))<div class="error">$action.getErrors().get("projectId")</div>#end
+                        <div class="description">$i18n.getText("groovioli-admin.action.addlistener.projectId.desc")</div>
                     </div>
                     <div class="field-group">
                         <label for="eventType">$i18n.getText("groovioli-admin.action.addlistener.eventType")<span class="aui-icon icon-required"> required</span></label>

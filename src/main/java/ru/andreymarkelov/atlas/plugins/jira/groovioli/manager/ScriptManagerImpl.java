@@ -5,11 +5,16 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import com.atlassian.jira.config.ConstantsManager;
+import com.atlassian.jira.config.SubTaskManager;
 import com.atlassian.jira.issue.AttachmentManager;
 import com.atlassian.jira.issue.CustomFieldManager;
+import com.atlassian.jira.issue.IssueFactory;
+import com.atlassian.jira.issue.IssueManager;
 import com.atlassian.jira.issue.comments.CommentManager;
 import com.atlassian.jira.issue.link.IssueLinkManager;
 import com.atlassian.jira.issue.watchers.WatcherManager;
+import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.security.groups.GroupManager;
 import com.atlassian.jira.security.roles.ProjectRoleManager;
@@ -49,7 +54,12 @@ public class ScriptManagerImpl implements ScriptManager {
             AttachmentManager attachmentManager,
             JiraAuthenticationContext jiraAuthenticationContext,
             IssueLinkManager issueLinkManager,
-            CommentManager commentManager) {
+            CommentManager commentManager,
+            IssueFactory issueFactory,
+            IssueManager issueManager,
+            SubTaskManager subTaskManager,
+            ConstantsManager constantsManager,
+            ProjectManager projectManager) {
         baseVariables = new HashMap<>();
         baseVariables.put("groupManager", groupManager);
         baseVariables.put("watcherManager", watcherManager);
@@ -61,6 +71,11 @@ public class ScriptManagerImpl implements ScriptManager {
         baseVariables.put("projectRoleManager", projectRoleManager);
         baseVariables.put("issueLinkManager", issueLinkManager);
         baseVariables.put("commentManager", commentManager);
+        baseVariables.put("issueFactory", issueFactory);
+        baseVariables.put("issueManager", issueManager);
+        baseVariables.put("subTaskManager", subTaskManager);
+        baseVariables.put("constantsManager", constantsManager);
+        baseVariables.put("projectManager", projectManager);
     }
 
     @Override

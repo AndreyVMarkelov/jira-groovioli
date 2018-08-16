@@ -12,8 +12,8 @@ public interface ListenerDataAO extends Entity {
     void setNote(String note);
 
     @Indexed
-    String getProjectIds();
-    void setProjectIds(String projectIds);
+    Long getProjectId();
+    void setProjectId(Long projectId);
 
     @Indexed
     String getEvent();
