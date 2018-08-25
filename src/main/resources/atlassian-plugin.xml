@@ -113,4 +113,9 @@
             </action>
         </actions>
     </webwork1>
+
+    <!-- REST -->
+    <rest key="groovioli-rest-resource" name="Groovioli Rest Resource" path="/groovioli" version="1.0">
+        <description>Groovioli REST Resources.</description>
+    </rest>
 </atlassian-plugin>

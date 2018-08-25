@@ -10,4 +10,5 @@ public interface ListenerDataManager {
     void createListener(ListenerData listenerData);
     void deleteListener(Integer listenerId);
     List<ListenerData> getAll();
+    ListenerData get(Integer listenerId);
 }

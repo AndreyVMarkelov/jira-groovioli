@@ -54,4 +54,20 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
         }
         return result;
     }
+
+    @Override
+    public ListenerData get(Integer listenerId) {
+        ListenerDataAO listenerDataAO = ao.get(ListenerDataAO.class, listenerId);
+        if (listenerDataAO != null) {
+            return new ListenerData(
+                    listenerDataAO.getID(),
+                    listenerDataAO.getNote(),
+                    listenerDataAO.getProjectId(),
+                    listenerDataAO.getEvent(),
+                    listenerDataAO.getScript(),
+                    listenerDataAO.getCreated()
+            );
+        }
+        return null;
+    }
 }

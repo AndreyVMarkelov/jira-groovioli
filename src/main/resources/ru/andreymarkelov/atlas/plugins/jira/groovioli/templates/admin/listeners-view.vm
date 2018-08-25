@@ -44,9 +44,9 @@
                     <tbody>
                     #foreach($item in $listenerDataList)
                     <tr>
-                        <td headers="note">$!{item.note}</td>
-                        <td headers="project"><span class="aui-lozenge aui-lozenge-current">$action.resolveProjectName($!{item.projectId})</span></td>
-                        <td headers="event">$!{item.event}</td>
+                        <td headers="note" style="vertical-align: middle;">$!{item.note}</td>
+                        <td headers="project" style="vertical-align: middle;"><span class="aui-lozenge aui-lozenge-current">$action.resolveProjectName($!{item.projectId})</span></td>
+                        <td headers="event" style="vertical-align: middle;">$!{item.event}</td>
                         <td class="action" headers="actions">
                             <ul class="menu">
                                 <li><button data-listenerId="$!{item.id}" class="aui-button aui-button-link grovioli-view-listener">$i18n.getText("groovioli-admin.action.listeners.actions.view")</button></li>
@@ -64,6 +64,26 @@
             </form>
         </div>
     </div>
+</section>
+<section role="dialog" id="groovioli-script-dialog" class="aui-layer aui-dialog2 aui-dialog2-large" aria-hidden="true">
+    <form action="#" class="aui" id="update-infobip-account" method="post">
+        <header class="aui-dialog2-header">
+            <h2 class="aui-dialog2-header-main">$i18n.getText("groovioli-admin.action.listeners.viewdialog.title")</h2>
+            <a class="aui-dialog2-header-close">
+                <span class="aui-icon aui-icon-small aui-iconfont-close-dialog">
+                    $i18n.getText("ru.andreymarkelov.atlas.plugins.jira-bipper-server.admin.account.close")
+                </span>
+            </a>
+        </header>
+        <div class="aui-dialog2-content">
+            <textarea class="textarea" rows="20" cols="120" style="width: 100%;max-width: none;resize: vertical;" disabled="disabled" id="script-in-dialog"></textarea>
+        </div>
+        <footer class="aui-dialog2-footer">
+            <div class="aui-dialog2-footer-actions">
+                <button id="groovioli-script-dialog-close" class="aui-button aui-button-link">$i18n.getText("groovioli-admin.action.listeners.viewdialog.close")</button>
+            </div>
+        </footer>
+    </form>
 </section>
 </body>
 </html>
