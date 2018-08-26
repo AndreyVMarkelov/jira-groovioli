@@ -5,7 +5,6 @@ import java.util.List;
 
 public enum EventType {
     ISSUE(true),
-    ISSUE_VIEW(true),
     DASHBOARD_VIEW(false),
     LOGIN(false),
     LOGOUT(false);

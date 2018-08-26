@@ -8,6 +8,8 @@ import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
 
 @Transactional
 public interface ListenerDataManager {
+    Long NO_PROJECT = -1L;
+
     void createListener(ListenerData listenerData);
     void deleteListener(Integer listenerId);
     List<ListenerData> getAll();

@@ -15,8 +15,6 @@ import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManage
 import static java.util.Collections.emptyList;
 
 public class ListenerDataManagerImpl implements ListenerDataManager {
-    private static final Long NO_PROJECT = -1L;
-
     private final ActiveObjects ao;
     private final Map<String, Map<Long, List<String>>> eventMap;
     private final List<ListenerData> listenerDataList;
