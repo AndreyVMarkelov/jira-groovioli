@@ -9,13 +9,17 @@ import com.atlassian.jira.event.user.LoginEvent;
 import com.atlassian.jira.event.user.LogoutEvent;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
 
 public class GroovioliListener implements InitializingBean, DisposableBean {
     private final EventPublisher eventPublisher;
+    private final ListenerDataManager listenerDataManager;
 
     public GroovioliListener(
-            EventPublisher eventPublisher) {
+            EventPublisher eventPublisher,
+            ListenerDataManager listenerDataManager) {
         this.eventPublisher = eventPublisher;
+        this.listenerDataManager = listenerDataManager;
     }
 
     @Override
