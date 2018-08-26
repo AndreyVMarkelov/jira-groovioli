@@ -81,7 +81,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     }
 
     public boolean isSelectedProject(Long checkProjectId) {
-        return (projectId != null) ? projectId.equals(checkProjectId) : false;
+        return (projectId != null) && projectId.equals(checkProjectId);
     }
 
     public List<String> getAllEvents() {
@@ -89,7 +89,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     }
 
     public boolean isSelectedEvent(String checkEvent) {
-        return (eventType != null) ? eventType.equals(checkEvent) : false;
+        return (eventType != null) && eventType.equals(checkEvent);
     }
 
     public String getNote() {

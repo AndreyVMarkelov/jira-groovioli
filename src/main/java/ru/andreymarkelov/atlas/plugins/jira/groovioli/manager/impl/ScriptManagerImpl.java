@@ -1,4 +1,4 @@
-package ru.andreymarkelov.atlas.plugins.jira.groovioli.manager;
+package ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +29,7 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import org.codehaus.groovy.control.CompilationFailedException;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
 
 public class ScriptManagerImpl implements ScriptManager {
     private final GroovyShell shell = new GroovyShell(this.getClass().getClassLoader());

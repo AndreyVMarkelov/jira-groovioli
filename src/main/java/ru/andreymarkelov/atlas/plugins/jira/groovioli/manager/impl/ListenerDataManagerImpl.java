@@ -1,4 +1,4 @@
-package ru.andreymarkelov.atlas.plugins.jira.groovioli.manager;
+package ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,7 @@ import com.atlassian.activeobjects.external.ActiveObjects;
 import net.java.ao.Query;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.ListenerDataAO;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
 
 public class ListenerDataManagerImpl implements ListenerDataManager {
     private final ActiveObjects ao;

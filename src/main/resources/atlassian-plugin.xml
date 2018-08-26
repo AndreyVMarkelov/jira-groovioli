@@ -32,10 +32,10 @@
     </web-resource>
 
     <!-- Components -->
-    <component key="groovioli-scripts-manager" name="Groovioli Scripts Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManagerImpl">
+    <component key="groovioli-scripts-manager" name="Groovioli Scripts Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.ScriptManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager</interface>
     </component>
-    <component key="groovioli-listeners-manager" name="Groovioli Listeners Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManagerImpl">
+    <component key="groovioli-listeners-manager" name="Groovioli Listeners Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.ListenerDataManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager</interface>
     </component>
     <component key="groovioli-listener" name="Groovioli Event Listener" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.listeners.GroovioliListener">
