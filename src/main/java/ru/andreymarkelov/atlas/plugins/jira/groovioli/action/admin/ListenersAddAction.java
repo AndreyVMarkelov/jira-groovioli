@@ -2,34 +2,20 @@ package ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin;
 
 import java.util.List;
 
-import com.atlassian.jira.event.DashboardViewEvent;
-import com.atlassian.jira.event.issue.IssueEvent;
-import com.atlassian.jira.event.issue.IssueViewEvent;
-import com.atlassian.jira.event.user.LoginEvent;
-import com.atlassian.jira.event.user.LogoutEvent;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import org.apache.commons.lang3.StringUtils;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.EventType;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
 
-import static java.util.Arrays.asList;
-
 import static com.atlassian.jira.permission.GlobalPermissionKey.ADMINISTER;
 
 public class ListenersAddAction extends JiraWebActionSupport {
-    private static final List<String> allEvents = asList(
-            IssueEvent.class.getSimpleName(),
-            IssueViewEvent.class.getSimpleName(),
-            DashboardViewEvent.class.getSimpleName(),
-            LoginEvent.class.getSimpleName(),
-            LogoutEvent.class.getSimpleName()
-    );
-
     private final ListenerDataManager listenerDataManager;
     private final ScriptManager scriptManager;
     private final ProjectManager projectManager;
@@ -85,7 +71,7 @@ public class ListenersAddAction extends JiraWebActionSupport {
     }
 
     public List<String> getAllEvents() {
-        return allEvents;
+        return EventType.getAllEvents();
     }
 
     public boolean isSelectedEvent(String checkEvent) {
