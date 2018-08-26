@@ -19,10 +19,12 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
 
     private final ActiveObjects ao;
     private final Map<String, Map<Long, List<String>>> eventMap;
+    private final List<ListenerData> listenerDataList;
 
     public ListenerDataManagerImpl(ActiveObjects ao) {
         this.ao = ao;
         this.eventMap = new HashMap<>();
+        this.listenerDataList = new ArrayList<>();
     }
 
     @Override
@@ -50,35 +52,22 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
 
     @Override
     public List<ListenerData> getAll() {
-        List<ListenerData> result = new ArrayList<>();
-        ListenerDataAO[] listenerDataAOs = ao.find(ListenerDataAO.class, Query.select().order("CREATED DESC"));
-        if (listenerDataAOs != null) {
-            for (ListenerDataAO listenerDataAO : listenerDataAOs) {
-                result.add(new ListenerData(
-                        listenerDataAO.getID(),
-                        listenerDataAO.getNote(),
-                        listenerDataAO.getProjectId(),
-                        listenerDataAO.getEvent(),
-                        listenerDataAO.getScript(),
-                        listenerDataAO.getCreated()
-                ));
-            }
+        if (listenerDataList.isEmpty()) {
+            rebuildCache();
         }
-        return result;
+        return listenerDataList;
     }
 
     @Override
     public ListenerData get(Integer listenerId) {
-        ListenerDataAO listenerDataAO = ao.get(ListenerDataAO.class, listenerId);
-        if (listenerDataAO != null) {
-            return new ListenerData(
-                    listenerDataAO.getID(),
-                    listenerDataAO.getNote(),
-                    listenerDataAO.getProjectId(),
-                    listenerDataAO.getEvent(),
-                    listenerDataAO.getScript(),
-                    listenerDataAO.getCreated()
-            );
+        if (listenerDataList.isEmpty()) {
+            rebuildCache();
+        }
+
+        for (ListenerData listenerData : listenerDataList) {
+            if (listenerData.getId().equals(listenerId)) {
+                return listenerData;
+            }
         }
         return null;
     }
@@ -97,8 +86,9 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
 
     private void rebuildCache() {
         eventMap.clear();
-        List<ListenerData> listenerDataList = getAll();
-        for (ListenerData listenerData : listenerDataList) {
+        listenerDataList.clear();
+        List<ListenerData> dbListenerDataList = getAllInternal();
+        for (ListenerData listenerData : dbListenerDataList) {
             final String event = listenerData.getEvent();
             final Long projectId = (listenerData.getProjectId() != null) ? listenerData.getProjectId() : NO_PROJECT;
             if (!eventMap.containsKey(event)) {
@@ -112,6 +102,25 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
 
             List<String> projectScripts = projectMap.get(projectId);
             projectScripts.add(listenerData.getScript());
+            listenerDataList.add(listenerData);
         }
+    }
+
+    private List<ListenerData> getAllInternal() {
+        List<ListenerData> result = new ArrayList<>();
+        ListenerDataAO[] listenerDataAOs = ao.find(ListenerDataAO.class, Query.select().order("CREATED DESC"));
+        if (listenerDataAOs != null) {
+            for (ListenerDataAO listenerDataAO : listenerDataAOs) {
+                result.add(new ListenerData(
+                        listenerDataAO.getID(),
+                        listenerDataAO.getNote(),
+                        listenerDataAO.getProjectId(),
+                        listenerDataAO.getEvent(),
+                        listenerDataAO.getScript(),
+                        listenerDataAO.getCreated()
+                ));
+            }
+        }
+        return result;
     }
 }
