@@ -11,6 +11,7 @@ import com.opensymphony.workflow.WorkflowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
 import static ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliFunctionFactory.FIELD;
 
@@ -38,9 +39,9 @@ public class GroovioliFunction extends AbstractJiraFunctionProvider {
 
         try {
             scriptManager.executeScript(script, parameters);
-        } catch (Exception ex) {
+        } catch (ScriptException ex) {
             log.error("Error", ex);
-            throw ex;
+            throw new WorkflowException(ex);
         }
     }
 }

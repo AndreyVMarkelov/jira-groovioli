@@ -14,5 +14,5 @@ public interface ListenerDataManager {
     void deleteListener(Integer listenerId);
     List<ListenerData> getAll();
     ListenerData get(Integer listenerId);
-    List<String> getScript(EventType eventType, Long projectId);
+    List<String> getScripts(EventType eventType, Long projectId);
 }

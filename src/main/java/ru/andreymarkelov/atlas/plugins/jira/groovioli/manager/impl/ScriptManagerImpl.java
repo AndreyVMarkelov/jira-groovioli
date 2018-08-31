@@ -24,12 +24,12 @@ import com.atlassian.jira.workflow.WorkflowTransitionUtilImpl;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.opensymphony.workflow.WorkflowException;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import org.codehaus.groovy.control.CompilationFailedException;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
 public class ScriptManagerImpl implements ScriptManager {
     private final GroovyShell shell = new GroovyShell(this.getClass().getClassLoader());
@@ -82,13 +82,13 @@ public class ScriptManagerImpl implements ScriptManager {
     @Override
     public Object executeScript(
             String groovyScript,
-            Map<String, Object> parameters) throws WorkflowException {
+            Map<String, Object> parameters) throws ScriptException {
         try {
             Script script = scriptCache.get(groovyScript);
             script.setBinding(fromMap(parameters));
             return script.run();
         } catch (ExecutionException ex) {
-            throw new WorkflowException("Error executing groovy script", ex);
+            throw new ScriptException("Error executing groovy script", ex);
         }
     }
 

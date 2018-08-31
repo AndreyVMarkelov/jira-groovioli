@@ -5,6 +5,9 @@ import java.util.Date;
 import net.java.ao.Entity;
 import net.java.ao.Preload;
 import net.java.ao.schema.Indexed;
+import net.java.ao.schema.StringLength;
+
+import static net.java.ao.schema.StringLength.UNLIMITED;
 
 @Preload
 public interface ListenerDataAO extends Entity {
@@ -19,6 +22,7 @@ public interface ListenerDataAO extends Entity {
     String getEvent();
     void setEvent(String event);
 
+    @StringLength(value = UNLIMITED)
     String getScript();
     void setScript(String script);
 

@@ -11,6 +11,7 @@ import com.opensymphony.workflow.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
 import static ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidatorFactory.FIELD;
 
@@ -38,7 +39,7 @@ public class GroovioliValidator implements Validator {
 
         try {
             scriptManager.executeScript(script, parameters);
-        } catch (Exception ex) {
+        } catch (ScriptException ex) {
             log.error("Error", ex);
             throw new InvalidInputException(ex);
         }

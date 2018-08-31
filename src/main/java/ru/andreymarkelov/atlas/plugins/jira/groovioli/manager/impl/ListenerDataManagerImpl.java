@@ -71,7 +71,7 @@ public class ListenerDataManagerImpl implements ListenerDataManager {
     }
 
     @Override
-    public List<String> getScript(EventType eventType, Long projectId) {
+    public List<String> getScripts(EventType eventType, Long projectId) {
         Map<Long, List<String>> projectMap = eventMap.get(eventType.name());
         if (projectMap != null) {
             List<String> scripts = projectMap.get(projectId);

@@ -38,7 +38,7 @@ public class GroovioliCondition extends AbstractJiraCondition {
             return (Boolean) scriptManager.executeScript(script, parameters);
         } catch (Exception ex) {
             log.error("Error", ex);
-            throw ex;
+            throw new WorkflowException(ex);
         }
     }
 }
