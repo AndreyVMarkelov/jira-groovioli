@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.andreymarkelov.atlas.plugins</groupId>
     <artifactId>groovioli</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>Groovioli</name>
@@ -104,7 +104,7 @@
 
     <properties>
         <jira.version>7.0.0</jira.version>
-        <amps.version>6.3.6</amps.version>
+        <amps.version>6.3.15</amps.version>
         <ao.version>0.24.0</ao.version>
         <groovy.version>2.4.13</groovy.version>
         <useFastdevCli>false</useFastdevCli>

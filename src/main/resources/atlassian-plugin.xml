@@ -23,12 +23,19 @@
         <resource type="download" name="images/" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/images"/>
         <context>groovioli</context>
     </web-resource>
-    <web-resource key="groovioli-listener-resources" name="Jira Bipper Profile Web Resources">
+    <web-resource key="groovioli-listener-resources" name="Groovioli Listener Web Resources">
         <dependency>com.atlassian.auiplugin:ajs</dependency>
         <dependency>com.atlassian.auiplugin:dialog2</dependency>
         <dependency>com.atlassian.auiplugin:aui-select2</dependency>
         <resource name="groovioli-listeners.js" type="download" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/js/groovioli-listeners.js"/>
         <context>groovioli-listeners</context>
+    </web-resource>
+    <web-resource key="groovioli-rest-resources" name="Groovioli REST Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <dependency>com.atlassian.auiplugin:aui-select2</dependency>
+        <resource name="groovioli-rests.js" type="download" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/js/groovioli-rests.js"/>
+        <context>groovioli-rests</context>
     </web-resource>
 
     <!-- Components -->
@@ -37,6 +44,9 @@
     </component>
     <component key="groovioli-listeners-manager" name="Groovioli Listeners Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.ListenerDataManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager</interface>
+    </component>
+    <component key="groovioli-rests-manager" name="Groovioli RESTs Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.RestDataManagerImpl">
+        <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager</interface>
     </component>
     <component key="groovioli-listener" name="Groovioli Event Listener" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.listeners.GroovioliListener">
         <description>This service listens Jira events.</description>
@@ -89,15 +99,25 @@
         </condition>
         <link linkId="groovioli-admin-listeners-link">/secure/ListenersSetupAction.jspa</link>
     </web-item>
+    <web-item key="groovioli-admin-rests-link" name="Groovioli RESTs" section="admin_plugins_menu/groovioli-admin-section" weight="201">
+        <label key="groovioli-admin.section.rests"/>
+        <description key="groovioli-admin.section.rests.desc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">admin</param>
+        </condition>
+        <link linkId="groovioli-admin-rests-link">/secure/RestsSetupAction.jspa</link>
+    </web-item>
 
     <!-- AO -->
     <ao key="groovioli-ao-module" name="Groovioli AO Module">
         <entity>ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.ListenerDataAO</entity>
+        <entity>ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.RestDataAO</entity>
     </ao>
 
     <!-- Web Actions -->
     <webwork1 key="groovioli-actions" name="Groovioli Web Actions" class="java.lang.Object">
         <actions>
+            <!-- Listeners -->
             <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.ListenersSetupAction" alias="ListenersSetupAction">
                 <view name="success">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/listeners-view.vm</view>
                 <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
@@ -109,6 +129,20 @@
                 <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
             </action>
             <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.ListenersDeleteAction" alias="ListenersDeleteAction">
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+            <!-- RESTs -->
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.RestsSetupAction" alias="RestsSetupAction">
+                <view name="success">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/rests-view.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.RestsAddAction" alias="RestsAddAction">
+                <view name="input">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/rests-add.vm</view>
+                <view name="error">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/rests-add.vm</view>
+                <view name="success">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/admin/rests-view.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.RestsDeleteAction" alias="RestsDeleteAction">
                 <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
             </action>
         </actions>
