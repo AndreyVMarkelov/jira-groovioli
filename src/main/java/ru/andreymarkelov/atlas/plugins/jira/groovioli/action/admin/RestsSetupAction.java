@@ -1,27 +1,22 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin;
 
-import com.atlassian.jira.project.Project;
-import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.RestData;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager;
 
 import java.util.List;
 
 import static com.atlassian.jira.permission.GlobalPermissionKey.ADMINISTER;
 
 public class RestsSetupAction extends JiraWebActionSupport {
-    private final ListenerDataManager listenerDataManager;
-    private final ProjectManager projectManager;
+    private final RestDataManager restDataManager;
 
-    private List<ListenerData> listenerDataList;
+    private List<RestData> restDataList;
 
     public RestsSetupAction(
-            ListenerDataManager listenerDataManager,
-            ProjectManager projectManager) {
-        this.listenerDataManager = listenerDataManager;
-        this.projectManager = projectManager;
+            RestDataManager restDataManager) {
+        this.restDataManager = restDataManager;
     }
 
     @Override
@@ -29,7 +24,7 @@ public class RestsSetupAction extends JiraWebActionSupport {
         if (!hasAdminPermission()) {
             return PERMISSION_VIOLATION_RESULT;
         }
-        listenerDataList = listenerDataManager.getAll();
+        restDataList = restDataManager.getAll();
         return SUCCESS;
     }
 
@@ -41,12 +36,7 @@ public class RestsSetupAction extends JiraWebActionSupport {
         return false;
     }
 
-    public String resolveProjectName(Long projectId) {
-        Project project = projectManager.getProjectObj(projectId);
-        return (project != null) ? project.getName() : "Unknown";
-    }
-
-    public List<ListenerData> getListenerDataList() {
-        return listenerDataList;
+    public List<RestData> getRestDataList() {
+        return restDataList;
     }
 }

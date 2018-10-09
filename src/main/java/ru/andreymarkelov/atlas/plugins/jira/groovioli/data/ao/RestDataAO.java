@@ -15,12 +15,12 @@ public interface RestDataAO extends Entity {
     void setNote(String note);
 
     @Indexed
-    Long getProjectId();
-    void setProjectId(Long projectId);
+    String getPath();
+    void setPath(String path);
 
     @Indexed
-    String getEvent();
-    void setEvent(String event);
+    String getPerformer();
+    void setPerformer(String performer);
 
     @StringLength(value = UNLIMITED)
     String getScript();

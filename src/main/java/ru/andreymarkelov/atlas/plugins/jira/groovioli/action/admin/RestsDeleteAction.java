@@ -3,17 +3,17 @@ package ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin;
 import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager;
 
 import static com.atlassian.jira.permission.GlobalPermissionKey.ADMINISTER;
 
 public class RestsDeleteAction extends JiraWebActionSupport {
-    private final ListenerDataManager listenerDataManager;
+    private final RestDataManager restDataManager;
 
-    private Integer listenerId;
+    private Integer restDataId;
 
-    public RestsDeleteAction(ListenerDataManager listenerDataManager) {
-        this.listenerDataManager = listenerDataManager;
+    public RestsDeleteAction(RestDataManager restDataManager) {
+        this.restDataManager = restDataManager;
     }
 
     @Override
@@ -22,16 +22,16 @@ public class RestsDeleteAction extends JiraWebActionSupport {
         if (!hasAdminPermission()) {
             return PERMISSION_VIOLATION_RESULT;
         }
-        listenerDataManager.deleteListener(listenerId);
-        return getRedirect("ListenersSetupAction.jspa");
+        restDataManager.deleteRestData(restDataId);
+        return getRedirect("RestsSetupAction.jspa");
     }
 
-    public Integer getListenerId() {
-        return listenerId;
+    public Integer getRestDataId() {
+        return restDataId;
     }
 
-    public void setListenerId(Integer listenerId) {
-        this.listenerId = listenerId;
+    public void setRestDataId(Integer restDataId) {
+        this.restDataId = restDataId;
     }
 
     private boolean hasAdminPermission() {

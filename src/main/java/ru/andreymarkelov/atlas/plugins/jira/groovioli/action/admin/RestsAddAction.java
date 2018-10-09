@@ -1,37 +1,29 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin;
 
-import com.atlassian.jira.project.Project;
-import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
 import org.apache.commons.lang3.StringUtils;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.EventType;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ListenerData;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.RestData;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
-
-import java.util.List;
 
 import static com.atlassian.jira.permission.GlobalPermissionKey.ADMINISTER;
 
 public class RestsAddAction extends JiraWebActionSupport {
-    private final ListenerDataManager listenerDataManager;
+    private final RestDataManager restDataManager;
     private final ScriptManager scriptManager;
-    private final ProjectManager projectManager;
 
     private String note;
-    private Long projectId;
-    private String eventType;
+    private String path;
+    private String performer;
     private String script;
 
     public RestsAddAction(
-            ListenerDataManager listenerDataManager,
-            ScriptManager scriptManager,
-            ProjectManager projectManager) {
-        this.listenerDataManager = listenerDataManager;
+            RestDataManager restDataManager,
+            ScriptManager scriptManager) {
+        this.restDataManager = restDataManager;
         this.scriptManager = scriptManager;
-        this.projectManager = projectManager;
     }
 
     @Override
@@ -48,8 +40,8 @@ public class RestsAddAction extends JiraWebActionSupport {
         if (!hasAdminPermission()) {
             return PERMISSION_VIOLATION_RESULT;
         }
-        listenerDataManager.createListener(new ListenerData(note, projectId, eventType, script));
-        return getRedirect("ListenersSetupAction.jspa");
+        restDataManager.createRestData(new RestData(note, path, performer, script));
+        return getRedirect("RestsSetupAction.jspa");
     }
 
     @Override
@@ -62,22 +54,6 @@ public class RestsAddAction extends JiraWebActionSupport {
         }
     }
 
-    public List<Project> getAllProjects() {
-        return projectManager.getProjects();
-    }
-
-    public boolean isSelectedProject(Long checkProjectId) {
-        return (projectId != null) && projectId.equals(checkProjectId);
-    }
-
-    public List<String> getAllEvents() {
-        return EventType.getAllEvents();
-    }
-
-    public boolean isSelectedEvent(String checkEvent) {
-        return (eventType != null) && eventType.equals(checkEvent);
-    }
-
     public String getNote() {
         return note;
     }
@@ -86,20 +62,20 @@ public class RestsAddAction extends JiraWebActionSupport {
         this.note = note;
     }
 
-    public Long getProjectId() {
-        return projectId;
+    public String getPath() {
+        return path;
     }
 
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public String getEventType() {
-        return eventType;
+    public String getPerformer() {
+        return performer;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    public void setPerformer(String performer) {
+        this.performer = performer;
     }
 
     public String getScript() {
