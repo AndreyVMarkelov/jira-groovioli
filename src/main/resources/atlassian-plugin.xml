@@ -152,4 +152,10 @@
     <rest key="groovioli-rest-resource" name="Groovioli Rest Resource" path="/groovioli" version="1.0">
         <description>Groovioli REST Resources.</description>
     </rest>
+
+    <!-- Servlets -->
+    <servlet name="HTTP Handler Servlet" key="groovioli-http-handler-servlet" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.servlet.HttpHandlerServlet">
+        <description>This servlet is HTTP handler for custom scripts.</description>
+        <url-pattern>/groovioli/*</url-pattern>
+    </servlet>
 </atlassian-plugin>
