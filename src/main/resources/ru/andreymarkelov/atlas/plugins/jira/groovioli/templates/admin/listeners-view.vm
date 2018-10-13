@@ -66,12 +66,12 @@
     </div>
 </section>
 <section role="dialog" id="groovioli-script-dialog" class="aui-layer aui-dialog2 aui-dialog2-large" aria-hidden="true">
-    <form action="#" class="aui" id="update-infobip-account" method="post">
+    <form action="#" class="aui" id="view-listener-script" method="post">
         <header class="aui-dialog2-header">
             <h2 class="aui-dialog2-header-main">$i18n.getText("groovioli-admin.action.listeners.viewdialog.title")</h2>
             <a class="aui-dialog2-header-close">
                 <span class="aui-icon aui-icon-small aui-iconfont-close-dialog">
-                    $i18n.getText("ru.andreymarkelov.atlas.plugins.jira-bipper-server.admin.account.close")
+                    $i18n.getText("groovioli-admin.action.listeners.viewdialog.close")
                 </span>
             </a>
         </header>

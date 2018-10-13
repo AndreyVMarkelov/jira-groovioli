@@ -18,7 +18,7 @@
             </div>
             <div class="aui-page-header-actions">
                 <div class="aui-buttons">
-                    <a id="add-listener-link" class="aui-button" href="RestsAddAction!default.jspa" title="Add Listener">
+                    <a id="add-listener-link" class="aui-button" href="RestsAddAction!default.jspa" title="Add HTTP Handler">
                         <span class="aui-icon aui-icon-small aui-iconfont-add"></span>
                         $i18n.getText("groovioli-admin.action.rests.addbutton")
                     </a>
@@ -37,20 +37,20 @@
                     <tr>
                         <th id="note">$i18n.getText("groovioli-admin.action.rests.note")</th>
                         <th id="project">$i18n.getText("groovioli-admin.action.rests.path")</th>
-                        <th id="event">$i18n.getText("groovioli-admin.action.rests.isauth")</th>
+                        <th id="event">$i18n.getText("groovioli-admin.action.rests.performer")</th>
                         <th id="actions">$i18n.getText("groovioli-admin.action.rests.actions")</th>
                     </tr>
                     </thead>
                     <tbody>
-                    #foreach($item in $listenerDataList)
+                    #foreach($item in $restDataList)
                     <tr>
                         <td headers="note" style="vertical-align: middle;">$!{item.note}</td>
-                        <td headers="project" style="vertical-align: middle;"><span class="aui-lozenge aui-lozenge-current">$action.resolveProjectName($!{item.projectId})</span></td>
-                        <td headers="event" style="vertical-align: middle;">$!{item.event}</td>
+                        <td headers="note" style="vertical-align: middle;">$!{item.path}</td>
+                        <td headers="event" style="vertical-align: middle;">$!{item.performer}</td>
                         <td class="action" headers="actions">
                             <ul class="menu">
-                                <li><button data-listenerId="$!{item.id}" class="aui-button aui-button-link grovioli-view-rest">$i18n.getText("groovioli-admin.action.listeners.actions.view")</button></li>
-                                <li><button data-listenerId="$!{item.id}"  class="aui-button aui-button-link grovioli-delete-rest">$i18n.getText("groovioli-admin.action.listeners.actions.delete")</button></li>
+                                <li><button data-restid="$!{item.id}" class="aui-button aui-button-link grovioli-view-rest">$i18n.getText("groovioli-admin.action.rests.actions.view")</button></li>
+                                <li><button data-restid="$!{item.id}"  class="aui-button aui-button-link grovioli-delete-rest">$i18n.getText("groovioli-admin.action.rests.actions.delete")</button></li>
                             </ul>
                         </td>
                     </tr>
@@ -58,20 +58,20 @@
                     </tbody>
                 </table>
             </section>
-            <form id="groovioli-listener-deleteform" action="RestsDeleteAction.jspa" method="post" class="hidden">
+            <form id="groovioli-rest-deleteform" action="RestsDeleteAction.jspa" method="post" class="hidden">
                 <input type="hidden" name="atl_token" value="${atl_token}"/>
-                <input type="hidden" id="listenerId" name="listenerId" value=""/>
+                <input type="hidden" id="restDataId" name="restDataId" value=""/>
             </form>
         </div>
     </div>
 </section>
 <section role="dialog" id="groovioli-script-dialog" class="aui-layer aui-dialog2 aui-dialog2-large" aria-hidden="true">
-    <form action="#" class="aui" id="update-infobip-account" method="post">
+    <form action="#" class="aui" id="view-rest-script" method="post">
         <header class="aui-dialog2-header">
             <h2 class="aui-dialog2-header-main">$i18n.getText("groovioli-admin.action.rests.viewdialog.title")</h2>
             <a class="aui-dialog2-header-close">
                 <span class="aui-icon aui-icon-small aui-iconfont-close-dialog">
-                    $i18n.getText("ru.andreymarkelov.atlas.plugins.jira-bipper-server.admin.account.close")
+                    $i18n.getText("groovioli-admin.action.rests.viewdialog.close")
                 </span>
             </a>
         </header>

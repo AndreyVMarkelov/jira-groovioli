@@ -55,4 +55,20 @@ public class RestDataManagerImpl implements RestDataManager {
         }
         return result;
     }
+
+    @Override
+    public RestData get(Integer restDataId) {
+        RestDataAO restDataAO = ao.get(RestDataAO.class, restDataId);
+        if (restDataAO != null) {
+            return new RestData(
+                    restDataAO.getID(),
+                    restDataAO.getNote(),
+                    restDataAO.getPath(),
+                    restDataAO.getPerformer(),
+                    restDataAO.getScript(),
+                    restDataAO.getCreated()
+            );
+        }
+        return null;
+    }
 }

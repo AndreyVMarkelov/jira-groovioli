@@ -2,17 +2,20 @@ package ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin;
 
 import com.atlassian.jira.security.xsrf.RequiresXsrfCheck;
 import com.atlassian.jira.user.ApplicationUser;
+import com.atlassian.jira.user.util.UserUtil;
 import com.atlassian.jira.web.action.JiraWebActionSupport;
-import org.apache.commons.lang3.StringUtils;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.RestData;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
 
 import static com.atlassian.jira.permission.GlobalPermissionKey.ADMINISTER;
+import static org.apache.commons.lang.StringUtils.isAlphanumeric;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 public class RestsAddAction extends JiraWebActionSupport {
     private final RestDataManager restDataManager;
     private final ScriptManager scriptManager;
+    private final UserUtil userUtil;
 
     private String note;
     private String path;
@@ -21,9 +24,11 @@ public class RestsAddAction extends JiraWebActionSupport {
 
     public RestsAddAction(
             RestDataManager restDataManager,
-            ScriptManager scriptManager) {
+            ScriptManager scriptManager,
+            UserUtil userUtil) {
         this.restDataManager = restDataManager;
         this.scriptManager = scriptManager;
+        this.userUtil = userUtil;
     }
 
     @Override
@@ -48,8 +53,22 @@ public class RestsAddAction extends JiraWebActionSupport {
     protected void doValidation() {
         super.doValidation();
 
+        if (isNotBlank(path)) {
+            if (!isAlphanumeric(path)) {
+                addError("path", getText("groovioli-admin.action.addRest.path.error.invalidpath"));
+            }
+        } else {
+            addError("path", getText("groovioli-admin.action.addRest.path.error.nopath"));
+        }
+
+        if (isNotBlank(performer)) {
+            if (!userUtil.userExists(performer)) {
+                addError("performer", getText("groovioli-admin.action.addRest.performer.error.nouser"));
+            }
+        }
+
         String scriptError = scriptManager.validateSyntax(script);
-        if (StringUtils.isNotBlank(scriptError)) {
+        if (isNotBlank(scriptError)) {
             addError("script", scriptError);
         }
     }

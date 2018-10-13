@@ -8,4 +8,5 @@ public interface RestDataManager {
     void createRestData(RestData restData);
     void deleteRestData(Integer restDataId);
     List<RestData> getAll();
+    RestData get(Integer restDataId);
 }

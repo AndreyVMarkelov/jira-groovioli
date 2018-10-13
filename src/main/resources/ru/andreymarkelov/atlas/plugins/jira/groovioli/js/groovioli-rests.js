@@ -1,17 +1,14 @@
 AJS.toInit(function () {
-    AJS.$("#projectId").auiSelect2();
-    AJS.$("#eventType").auiSelect2();
-
-    AJS.$(".grovioli-delete-listener").click(function (e) {
+    AJS.$(".grovioli-delete-rest").click(function (e) {
         if (confirm("Are you sure?")) {
-            AJS.$("#groovioli-listener-deleteform > #listenerId").val(AJS.$(this).attr("data-listenerId"));
-            AJS.$("#groovioli-listener-deleteform").submit();
+            AJS.$("#groovioli-rest-deleteform > #restDataId").val(AJS.$(this).attr("data-restid"));
+            AJS.$("#groovioli-rest-deleteform").submit();
         }
     });
 
-    function viewListener(listenerId) {
+    function viewRest(restDataId) {
         AJS.$.ajax({
-            url: AJS.contextPath() + "/rest/groovioli/1.0/listener/getscript?listenerId=" + listenerId,
+            url: AJS.contextPath() + "/rest/groovioli/1.0/rest/getscript?restDataId=" + restDataId,
             type: "GET",
             contentType: "text/plain",
             processData: false,
@@ -27,8 +24,8 @@ AJS.toInit(function () {
         });
     }
 
-    AJS.$(".grovioli-view-listener").click(function (e) {
-        viewListener(AJS.$(this).attr("data-listenerId"));
+    AJS.$(".grovioli-view-rest").click(function (e) {
+        viewRest(AJS.$(this).attr("data-restid"));
     });
 
     AJS.$("#groovioli-script-dialog-close").click(function (e) {
