@@ -44,14 +44,14 @@ public class RestResource {
         if (!globalPermissionManager.hasPermission(ADMINISTER, currentUser)) {
             log.warn("Invalid user:{} tries to access script", currentUser.getName());
             return status(FORBIDDEN)
-                    .entity(jiraAuthenticationContext.getI18nHelper().getText("groovioli-rest.listener.noaccess"))
+                    .entity(jiraAuthenticationContext.getI18nHelper().getText("groovioli-rest.rest.noaccess"))
                     .build();
         }
 
         RestData restData = restDataManager.get(restDataId);
         if (restData == null) {
             return status(NOT_FOUND)
-                    .entity(jiraAuthenticationContext.getI18nHelper().getText("groovioli-rest.listener.nolistener"))
+                    .entity(jiraAuthenticationContext.getI18nHelper().getText("groovioli-rest.rest.norest"))
                     .build();
         }
         return status(OK).entity(restData.getScript()).build();
