@@ -1,9 +1,5 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.listeners;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.atlassian.event.api.EventListener;
 import com.atlassian.event.api.EventPublisher;
 import com.atlassian.jira.event.DashboardViewEvent;
@@ -19,14 +15,23 @@ import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManage
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager.NO_PROJECT;
 
 public class GroovioliListener implements InitializingBean, DisposableBean {
     private static final Logger log = LoggerFactory.getLogger(GroovioliListener.class);
 
+    private static final int THREAD_COUNT = 2;
+
     private final EventPublisher eventPublisher;
     private final ListenerDataManager listenerDataManager;
     private final ScriptManager scriptManager;
+    private final ExecutorService executorService;
 
     public GroovioliListener(
             EventPublisher eventPublisher,
@@ -35,6 +40,7 @@ public class GroovioliListener implements InitializingBean, DisposableBean {
         this.eventPublisher = eventPublisher;
         this.listenerDataManager = listenerDataManager;
         this.scriptManager = scriptManager;
+        this.executorService = Executors.newFixedThreadPool(THREAD_COUNT);
     }
 
     @Override
@@ -45,13 +51,14 @@ public class GroovioliListener implements InitializingBean, DisposableBean {
     @Override
     public void destroy() {
         eventPublisher.unregister(this);
+        executorService.shutdownNow();
     }
 
     @EventListener
     public void onIssueEvent(IssueEvent issueEvent) {
         List<String> scripts = listenerDataManager.getScripts(EventType.ISSUE, issueEvent.getProject().getId());
-        for (String script : scripts) {
-            Map<String, Object> parameters = new HashMap<>();
+        for (final String script : scripts) {
+            final Map<String, Object> parameters = new HashMap<>();
             parameters.put("changeLog", issueEvent.getChangeLog());
             parameters.put("eventComment", issueEvent.getComment());
             parameters.put("eventWorklog", issueEvent.getWorklog());
@@ -59,11 +66,16 @@ public class GroovioliListener implements InitializingBean, DisposableBean {
             parameters.put("eventTypeId", issueEvent.getEventTypeId());
             parameters.put("eventUser", issueEvent.getUser());
             parameters.put("log", log);
-            try {
-                scriptManager.executeScript(script, parameters);
-            } catch (ScriptException ex) {
-                log.error("Listener error", ex);
-            }
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        scriptManager.executeScript(script, parameters);
+                    } catch (ScriptException ex) {
+                        log.error("Listener error", ex);
+                    }
+                }
+            });
         }
     }
 

@@ -18,7 +18,6 @@ public interface RestDataAO extends Entity {
     String getPath();
     void setPath(String path);
 
-    @Indexed
     String getPerformer();
     void setPerformer(String performer);
 

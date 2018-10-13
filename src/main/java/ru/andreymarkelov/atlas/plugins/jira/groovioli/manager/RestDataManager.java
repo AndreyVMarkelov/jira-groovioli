@@ -9,4 +9,5 @@ public interface RestDataManager {
     void deleteRestData(Integer restDataId);
     List<RestData> getAll();
     RestData get(Integer restDataId);
+    RestData getByPath(String path);
 }

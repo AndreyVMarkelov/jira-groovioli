@@ -2,6 +2,7 @@ package ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl;
 
 import com.atlassian.activeobjects.external.ActiveObjects;
 import net.java.ao.Query;
+import org.apache.commons.lang3.ArrayUtils;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.RestData;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.data.ao.RestDataAO;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager;
@@ -43,14 +44,7 @@ public class RestDataManagerImpl implements RestDataManager {
         RestDataAO[] restDataAOs = ao.find(RestDataAO.class, Query.select().order("CREATED DESC"));
         if (restDataAOs != null) {
             for (RestDataAO restDataAO : restDataAOs) {
-                result.add(new RestData(
-                        restDataAO.getID(),
-                        restDataAO.getNote(),
-                        restDataAO.getPath(),
-                        restDataAO.getPerformer(),
-                        restDataAO.getScript(),
-                        restDataAO.getCreated()
-                ));
+                result.add(of(restDataAO));
             }
         }
         return result;
@@ -60,15 +54,28 @@ public class RestDataManagerImpl implements RestDataManager {
     public RestData get(Integer restDataId) {
         RestDataAO restDataAO = ao.get(RestDataAO.class, restDataId);
         if (restDataAO != null) {
-            return new RestData(
-                    restDataAO.getID(),
-                    restDataAO.getNote(),
-                    restDataAO.getPath(),
-                    restDataAO.getPerformer(),
-                    restDataAO.getScript(),
-                    restDataAO.getCreated()
-            );
+            return of(restDataAO);
         }
         return null;
+    }
+
+    @Override
+    public RestData getByPath(String path) {
+        RestDataAO[] restDatas = ao.find(RestDataAO.class, Query.select().where("PATH=?", path));
+        if (ArrayUtils.isNotEmpty(restDatas)) {
+            return of(restDatas[0]);
+        }
+        return null;
+    }
+
+    private static RestData of(RestDataAO restDataAO) {
+        return new RestData(
+                restDataAO.getID(),
+                restDataAO.getNote(),
+                restDataAO.getPath(),
+                restDataAO.getPerformer(),
+                restDataAO.getScript(),
+                restDataAO.getCreated()
+        );
     }
 }
