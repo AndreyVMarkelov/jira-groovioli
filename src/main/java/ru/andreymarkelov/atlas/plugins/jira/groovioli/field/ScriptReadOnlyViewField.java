@@ -7,23 +7,29 @@ import com.atlassian.jira.issue.fields.CustomField;
 import com.atlassian.jira.issue.fields.config.FieldConfig;
 import com.atlassian.jira.issue.fields.config.FieldConfigItemType;
 import com.atlassian.jira.issue.fields.layout.field.FieldLayoutItem;
+import com.atlassian.templaterenderer.TemplateRenderer;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.FieldDataManager;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
     private final FieldDataManager fieldDataManager;
+    private final TemplateRenderer templateRenderer;
 
-    public ScriptReadOnlyViewField(FieldDataManager fieldDataManager) {
+    public ScriptReadOnlyViewField(
+            FieldDataManager fieldDataManager,
+            TemplateRenderer templateRenderer) {
         this.fieldDataManager = fieldDataManager;
+        this.templateRenderer = templateRenderer;
     }
 
     @Override
     public List<FieldConfigItemType> getConfigurationItemTypes() {
-        List<FieldConfigItemType> configurationItemTypes = super.getConfigurationItemTypes();
-        configurationItemTypes.add(new ScriptReadOnlyViewFieldConfig(fieldDataManager));
+        List<FieldConfigItemType> configurationItemTypes = new ArrayList<>();
+        configurationItemTypes.add(new ScriptReadOnlyViewFieldConfig(fieldDataManager, templateRenderer));
         return configurationItemTypes;
     }
 
@@ -49,7 +55,7 @@ public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
         if (issue != null) {
             FieldConfig fieldConfig = customField.getRelevantConfig(issue);
             if (fieldConfig != null) {
-                params.put("script", fieldDataManager.getReadOnlyScript(fieldConfig));
+                params.put("script", fieldDataManager.getReadOnlyScriptColumn(fieldConfig));
             }
         }
         return params;

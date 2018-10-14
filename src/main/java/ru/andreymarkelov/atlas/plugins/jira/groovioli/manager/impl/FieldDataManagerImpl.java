@@ -15,13 +15,29 @@ public class FieldDataManagerImpl implements FieldDataManager {
     }
 
     @Override
-    public String getReadOnlyScript(FieldConfig config) {
-        return null;
+    public String getReadOnlyScriptView(FieldConfig config) {
+        Object obj = getPluginSettings().get(getKey(config, "readOnlyScriptView"));
+        return obj != null ? obj.toString() : "";
     }
 
     @Override
-    public void setReadOnlyScript(FieldConfig config, String readOnlyScript) {
+    public void setReadOnlyScriptView(FieldConfig config, String readOnlyScriptView) {
+        getPluginSettings().put(getKey(config, "readOnlyScriptView"), readOnlyScriptView);
+    }
 
+    @Override
+    public String getReadOnlyScriptColumn(FieldConfig config) {
+        Object obj = getPluginSettings().get(getKey(config, "readOnlyScriptColumn"));
+        return obj != null ? obj.toString() : "";
+    }
+
+    @Override
+    public void setReadOnlyScriptColumn(FieldConfig config, String readOnlyScriptColumn) {
+        getPluginSettings().put(getKey(config, "readOnlyScriptColumn"), readOnlyScriptColumn);
+    }
+
+    private String getKey(FieldConfig config, String name) {
+        return config.getFieldId().concat("_").concat(config.getId().toString()).concat("_").concat(name);
     }
 
     private synchronized PluginSettings getPluginSettings() {

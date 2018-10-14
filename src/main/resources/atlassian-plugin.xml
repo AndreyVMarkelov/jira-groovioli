@@ -48,6 +48,9 @@
     <component key="groovioli-rests-manager" name="Groovioli RESTs Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.RestDataManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.RestDataManager</interface>
     </component>
+    <component key="groovioli-field-manager" name="Groovioli Field Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.FieldDataManagerImpl">
+        <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.FieldDataManager</interface>
+    </component>
     <component key="groovioli-listener" name="Groovioli Event Listener" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.listeners.GroovioliListener">
         <description>This service listens Jira events.</description>
     </component>
@@ -57,6 +60,7 @@
     <component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties"/>
     <component-import key="ao" interface="com.atlassian.activeobjects.external.ActiveObjects"/>
     <component-import key="transactionTemplate" interface="com.atlassian.sal.api.transaction.TransactionTemplate"/>
+    <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.velocity.one.six.VelocityTemplateRenderer" />
 
     <workflow-condition key="groovioli-condition" name="Groovioli Condition" i18n-name-key="groovioli-condition.name" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliConditionFactory">
         <description key="groovioli-condition.description">This condition executes groovy script.</description>
@@ -145,6 +149,10 @@
             <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.admin.RestsDeleteAction" alias="RestsDeleteAction">
                 <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
             </action>
+            <action name="ru.andreymarkelov.atlas.plugins.jira.groovioli.action.field.ScriptReadOnlyViewFieldAction" alias="ScriptReadOnlyViewFieldAction">
+                <view name="input">/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/field/readonly-field-config.vm</view>
+                <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+            </action>
         </actions>
     </webwork1>
 
@@ -158,4 +166,12 @@
         <description>This servlet is HTTP handler for custom scripts.</description>
         <url-pattern>/groovioli/*</url-pattern>
     </servlet>
+
+    <!-- Custom Fields -->
+    <customfield-type key="groovioli-readonly-field" name="Groovioli Read Only Field" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.field.ScriptReadOnlyViewField">
+        <description>Render groovy template read only field.</description>
+        <resource type="velocity" name="view" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/field/view-readonly.vm"/>
+        <resource type="velocity" name="column-view" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/field/view-readonly.vm"/>
+        <resource type="download" name="customfieldpreview.png" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/images/groovioli-logo.png"/>
+    </customfield-type>
 </atlassian-plugin>

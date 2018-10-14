@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>$i18n.getText("groovioli-field.readonly.config.config.title")</title>
+        <meta content="admin" name="decorator"/>
+        <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section"/>
+        <meta name="admin.active.tab" content="view_custom_fields"/>
+    </head>
+    <body class="aui">
+        #if($action.hasAnyErrors())
+        <div class="aui-message error">
+            <p class="title">
+                <span class="aui-icon icon-error"></span>
+                <strong>$i18n.getText("groovioli-field.readonly.config.config.error")</strong>
+            </p>
+            #foreach($error in $action.getErrorMessages())<p>${error}</p>#end
+        </div>
+        #end
+        <header class="aui-page-header">
+            <div class="aui-page-header-inner">
+                <div class="aui-page-header-main">
+                    <h2>$i18n.getText("groovioli-field.readonly.config.config.title")</h2>
+                    <p class="description">$i18n.getText("groovioli-field.readonly.config.config.title.desc")</p>
+                </div>
+            </div>
+        </header>
+        <form class="aui" action="ScriptReadOnlyViewFieldAction.jspa" method="post">
+            <input type="hidden" name="atl_token" value="${atl_token}"/>
+            <input type="hidden" name="fieldConfigId" value="${fieldConfigId}"/>
+            <div class="field-group">
+                <label for="viewTemplate">$i18n.getText("groovioli-field.readonly.config.config.viewTemplate")</label>
+                <textarea class="textarea" name="viewTemplate" id="viewTemplate" cols="120" rows="10">$!{viewTemplate}</textarea>
+                #if($action.getErrors().containsKey("viewTemplate"))
+                <div class="error">$action.getErrors().get("viewTemplate")</div>
+                #end
+                <div class="description">$i18n.getText("groovioli-field.readonly.config.config.viewTemplate.desc")</div>
+            </div>
+            <div class="field-group">
+                <label for="columnTemplate">$i18n.getText("groovioli-field.readonly.config.config.columnTemplate")</label>
+                <textarea class="textarea" name="columnTemplate" id="columnTemplate" cols="120" rows="10">$!{columnTemplate}</textarea>
+                #if($action.getErrors().containsKey("columnTemplate"))
+                <div class="error">$action.getErrors().get("columnTemplate")</div>
+                #end
+                <div class="description">$i18n.getText("groovioli-field.readonly.config.config.columnTemplate.desc")</div>
+            </div>
+            <div class="buttons-container">
+                <div class="buttons">
+                    <input type="submit" class="aui-button" accesskey="s" id="set_defaults_submit" value='$i18n.getText("groovioli-field.readonly.config.config.save")'>
+                    <a accesskey="`" class="aui-button aui-button-link" id="cancelButton" href="ConfigureCustomField!default.jspa?customFieldId=${action.getCustomField().getIdAsLong().toString()}">
+                        $i18n.getText("groovioli-field.readonly.config.config.cancel")
+                    </a>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>
