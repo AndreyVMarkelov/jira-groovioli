@@ -19,34 +19,32 @@ import com.atlassian.jira.workflow.WorkflowTransitionUtilImpl;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
-import org.codehaus.groovy.control.CompilationFailedException;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
+import groovy.text.SimpleTemplateEngine;
+import groovy.text.Template;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptTemplateManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.TemplateException;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-public class ScriptManagerImpl implements ScriptManager {
-    private final GroovyShell shell = new GroovyShell(this.getClass().getClassLoader());
+public class ScriptTemplateManagerImpl implements ScriptTemplateManager {
+    private final SimpleTemplateEngine templateEngine = new SimpleTemplateEngine(this.getClass().getClassLoader());
 
-    private final LoadingCache<String, Script> scriptCache = CacheBuilder.newBuilder()
+    private final LoadingCache<String, Template> templateCache = CacheBuilder.newBuilder()
             .maximumSize(10_000)
             .expireAfterWrite(7, TimeUnit.DAYS)
-            .build(new CacheLoader<String, Script>() {
+            .build(new CacheLoader<String, Template>() {
                 @Override
-                public Script load(String scriptSource) throws CompilationFailedException {
-                    return shell.parse(scriptSource);
+                public Template load(String templateSource) throws Exception {
+                    return templateEngine.createTemplate(templateSource);
                 }
             });
 
     private final Map<String, Object> baseVariables;
 
-    public ScriptManagerImpl(
+    public ScriptTemplateManagerImpl(
             GroupManager groupManager,
             ProjectRoleManager projectRoleManager,
             WatcherManager watcherManager,
@@ -80,31 +78,31 @@ public class ScriptManagerImpl implements ScriptManager {
     }
 
     @Override
-    public Object executeScript(String groovyScript, Map<String, Object> parameters) throws ScriptException {
-        try {
-            Script script = scriptCache.get(groovyScript);
-            script.setBinding(fromMap(parameters));
-            return script.run();
-        } catch (ExecutionException ex) {
-            throw new ScriptException("Error executing groovy script", ex);
+    public String renderTemplate(String groovyTemplate, Map<String, Object> parameters) throws TemplateException {
+        try (StringWriter stringWriter = new StringWriter()) {
+            Template template = templateCache.get(groovyTemplate);
+            template.make(fromMap(parameters)).writeTo(stringWriter);
+            return stringWriter.toString();
+        } catch (Exception ex) {
+            throw new TemplateException("Error executing groovy template", ex);
         }
     }
 
     @Override
-    public String validateSyntax(String groovyScript) {
+    public String validateSyntax(String groovyTemplate) {
         try {
-            shell.parse(groovyScript);
-        } catch (CompilationFailedException e) {
+            templateEngine.createTemplate(groovyTemplate);
+        } catch (Exception e) {
             return e.getMessage();
         }
         return null;
     }
 
-    private Binding fromMap(Map<String, Object> parameters) {
+    private Map<String, Object> fromMap(Map<String, Object> parameters) {
         Map variables = new HashMap(baseVariables);
         if (parameters != null) {
             variables.putAll(parameters);
         }
-        return new Binding(variables);
+        return variables;
     }
 }

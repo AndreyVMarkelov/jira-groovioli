@@ -1,2 +1,2 @@
-view-readonly.vm
-view-readonly.vm
+#disable_html_escaping()
+$!{resultView}

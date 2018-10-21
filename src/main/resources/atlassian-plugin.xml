@@ -42,6 +42,9 @@
     <component key="groovioli-scripts-manager" name="Groovioli Scripts Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.ScriptManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager</interface>
     </component>
+    <component key="groovioli-templates-manager" name="Groovioli Templates Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.ScriptTemplateManagerImpl">
+        <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptTemplateManager</interface>
+    </component>
     <component key="groovioli-listeners-manager" name="Groovioli Listeners Manager" class="ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.impl.ListenerDataManagerImpl">
         <interface>ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ListenerDataManager</interface>
     </component>

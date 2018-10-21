@@ -1,6 +1,8 @@
 package ru.andreymarkelov.atlas.plugins.jira.groovioli.field;
 
+import com.atlassian.jira.component.ComponentAccessor;
 import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.issue.changehistory.ChangeHistoryItem;
 import com.atlassian.jira.issue.customfields.impl.CalculatedCFType;
 import com.atlassian.jira.issue.customfields.impl.FieldValidationException;
 import com.atlassian.jira.issue.fields.CustomField;
@@ -9,21 +11,26 @@ import com.atlassian.jira.issue.fields.config.FieldConfigItemType;
 import com.atlassian.jira.issue.fields.layout.field.FieldLayoutItem;
 import com.atlassian.templaterenderer.TemplateRenderer;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.FieldDataManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptTemplateManager;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
     private final FieldDataManager fieldDataManager;
     private final TemplateRenderer templateRenderer;
+    private final ScriptTemplateManager scriptTemplateManager;
 
     public ScriptReadOnlyViewField(
             FieldDataManager fieldDataManager,
-            TemplateRenderer templateRenderer) {
+            TemplateRenderer templateRenderer,
+            ScriptTemplateManager scriptTemplateManager) {
         this.fieldDataManager = fieldDataManager;
         this.templateRenderer = templateRenderer;
+        this.scriptTemplateManager = scriptTemplateManager;
     }
 
     @Override
@@ -46,7 +53,7 @@ public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
     @Nullable
     @Override
     public String getValueFromIssue(CustomField customField, Issue issue) {
-        return null;
+        return "Ferfe";
     }
 
     @Override
@@ -55,6 +62,23 @@ public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
         if (issue != null) {
             FieldConfig fieldConfig = customField.getRelevantConfig(issue);
             if (fieldConfig != null) {
+                String view = fieldDataManager.getReadOnlyScriptView(fieldConfig);
+                String column = fieldDataManager.getReadOnlyScriptColumn(fieldConfig);
+
+                Map<String, Object> d = new HashMap<>();
+                d.put("cf", ComponentAccessor.getCustomFieldManager());
+                List<ChangeHistoryItem> ed = ComponentAccessor.getChangeHistoryManager().getAllChangeItems(issue);
+                for (ChangeHistoryItem i : ed) {
+                    i.getTos();
+                    i.getFroms();
+                }
+
+                try {
+                    params.put("resultView", scriptTemplateManager.renderTemplate(view, new HashMap<String, Object>()));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
                 params.put("script", fieldDataManager.getReadOnlyScriptColumn(fieldConfig));
             }
         }
