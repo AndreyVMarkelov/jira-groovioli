@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
     private final FieldDataManager fieldDataManager;
     private final TemplateRenderer templateRenderer;
@@ -65,8 +67,11 @@ public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
                 String view = fieldDataManager.getReadOnlyScriptView(fieldConfig);
                 String column = fieldDataManager.getReadOnlyScriptColumn(fieldConfig);
 
-                Map<String, Object> d = new HashMap<>();
-                d.put("cf", ComponentAccessor.getCustomFieldManager());
+                Map<String, Object> parameters = new HashMap<>();
+                parameters.put("issue", issue);
+                parameters.put("customField", customField);
+                parameters.put("fieldLayoutItem", fieldLayoutItem);
+
                 List<ChangeHistoryItem> ed = ComponentAccessor.getChangeHistoryManager().getAllChangeItems(issue);
                 for (ChangeHistoryItem i : ed) {
                     i.getTos();
@@ -74,12 +79,22 @@ public class ScriptReadOnlyViewField extends CalculatedCFType<String, String> {
                 }
 
                 try {
-                    params.put("resultView", scriptTemplateManager.renderTemplate(view, new HashMap<String, Object>()));
+                    if (isNotBlank(view)) {
+                        params.put("resultView", scriptTemplateManager.renderTemplate(view, parameters));
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
+
                 }
 
-                params.put("script", fieldDataManager.getReadOnlyScriptColumn(fieldConfig));
+                try {
+                    if (isNotBlank(column)) {
+                        params.put("resultColumn", scriptTemplateManager.renderTemplate(column, parameters));
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                }
             }
         }
         return params;
