@@ -175,6 +175,6 @@
         <description>Render groovy template read only field.</description>
         <resource type="velocity" name="view" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/field/view-readonly.vm"/>
         <resource type="velocity" name="column-view" location="/ru/andreymarkelov/atlas/plugins/jira/groovioli/templates/field/column-readonly.vm"/>
-        <resource type="download" name="customfieldpreview.png" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/images/groovioli-logo.png"/>
+        <resource type="download" name="customfieldpreview.png" location="ru/andreymarkelov/atlas/plugins/jira/groovioli/images/groovioli-field.png"/>
     </customfield-type>
 </atlassian-plugin>
