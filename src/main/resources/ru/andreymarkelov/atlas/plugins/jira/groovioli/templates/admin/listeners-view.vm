@@ -76,7 +76,7 @@
             </a>
         </header>
         <div class="aui-dialog2-content">
-            <textarea class="textarea" rows="20" cols="120" style="width: 100%;max-width: none;resize: vertical;" disabled="disabled" id="script-in-dialog"></textarea>
+            <textarea class="textarea" rows="20" cols="120" style="width: 100%;max-width: none;resize: vertical;" readonly="readonly" id="script-in-dialog"></textarea>
         </div>
         <footer class="aui-dialog2-footer">
             <div class="aui-dialog2-footer-actions">

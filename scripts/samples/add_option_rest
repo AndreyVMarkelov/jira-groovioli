@@ -1,0 +1,18 @@
+Option select field option by HTTP
+
+Script:
+import groovy.json.JsonSlurper
+
+def jsonSlurper = new JsonSlurper()
+def object = jsonSlurper.parseText(httpPayload)
+
+addOption {
+   customField 'customfield_10000'
+   option object.option
+}
+
+HTTP:
+POST /plugins/servlet/groovioli/agileoption
+{
+	"option": "agile"
+}

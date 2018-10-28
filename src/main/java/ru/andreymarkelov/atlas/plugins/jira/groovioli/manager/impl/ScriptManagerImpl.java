@@ -30,7 +30,10 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import org.codehaus.groovy.control.CompilationFailedException;
+import org.codehaus.groovy.control.CompilerConfiguration;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.FieldOption;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.GroovioliBase;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
 import java.util.HashMap;
@@ -39,19 +42,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class ScriptManagerImpl implements ScriptManager {
-    private final GroovyShell shell = new GroovyShell(this.getClass().getClassLoader());
-
-    private final LoadingCache<String, Script> scriptCache = CacheBuilder.newBuilder()
-            .maximumSize(10_000)
-            .expireAfterWrite(7, TimeUnit.DAYS)
-            .build(new CacheLoader<String, Script>() {
-                @Override
-                public Script load(String scriptSource) throws CompilationFailedException {
-                    return shell.parse(scriptSource);
-                }
-            });
-
+    private final GroovyShell shell;
     private final Map<String, Object> baseVariables;
+    private final LoadingCache<String, Script> scriptCache;
 
     public ScriptManagerImpl(
             GroupManager groupManager,
@@ -75,6 +68,10 @@ public class ScriptManagerImpl implements ScriptManager {
             VersionManager versionManager,
             OptionsManager optionsManager,
             ApplicationProperties applicationProperties) {
+        CompilerConfiguration config = new CompilerConfiguration();
+        config.setScriptBaseClass(GroovioliBase.class.getName());
+        shell = new GroovyShell(this.getClass().getClassLoader(), config);
+
         baseVariables = new HashMap<>();
         baseVariables.put("groupManager", groupManager);
         baseVariables.put("watcherManager", watcherManager);
@@ -98,6 +95,19 @@ public class ScriptManagerImpl implements ScriptManager {
         baseVariables.put("versionManager", versionManager);
         baseVariables.put("optionsManager", optionsManager);
         baseVariables.put("applicationProperties", applicationProperties);
+
+        // DSL
+        baseVariables.put("fileOptionScript", new FieldOption());
+
+        scriptCache = CacheBuilder.newBuilder()
+                .maximumSize(10_000)
+                .expireAfterWrite(7, TimeUnit.DAYS)
+                .build(new CacheLoader<String, Script>() {
+                    @Override
+                    public Script load(String scriptSource) throws CompilationFailedException {
+                        return shell.parse(scriptSource);
+                    }
+                });
     }
 
     @Override
