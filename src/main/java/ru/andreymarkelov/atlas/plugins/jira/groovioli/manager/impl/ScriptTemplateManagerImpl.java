@@ -89,7 +89,6 @@ public class ScriptTemplateManagerImpl implements ScriptTemplateManager {
         baseVariables.put("subTaskManager", subTaskManager);
         baseVariables.put("constantsManager", constantsManager);
         baseVariables.put("projectManager", projectManager);
-
         baseVariables.put("labelManager", labelManager);
         baseVariables.put("changeHistoryManager", changeHistoryManager);
         baseVariables.put("voteManager", voteManager);

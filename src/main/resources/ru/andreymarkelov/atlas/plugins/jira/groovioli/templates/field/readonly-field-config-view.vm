@@ -1,10 +1,14 @@
 <form action="ScriptReadOnlyViewFieldAction.jspa" method="post" class="aui">
     <div class="field-group">
         <label for="viewTemplate">$i18n.getText("groovioli-field.readonly.config.config.viewTemplate"):</label>
-        <span id="viewTemplate" class="field-value">$!{viewTemplate}</span>
+        <span id="viewTemplate" class="field-value">
+            <pre>$!{viewTemplate}</pre>
+        </span>
     </div>
     <div class="field-group">
         <label for="columnTemplate">$i18n.getText("groovioli-field.readonly.config.config.columnTemplate"):</label>
-        <span id="columnTemplate" class="field-value">$!{columnTemplate}</span>
+        <span id="columnTemplate" class="field-value">
+            <pre>$!{columnTemplate}</pre>
+        </span>
     </div>
 </form>

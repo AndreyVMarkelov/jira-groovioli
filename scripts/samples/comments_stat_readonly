@@ -1,0 +1,27 @@
+Display comments stats by user in read-only file:
+
+View:
+<%
+  def comments = commentManager.getComments(issue)
+  def byAuthors = comments
+         .groupBy({ comment -> comment.getAuthorFullName() })
+         .collectEntries { [(it.key) : it.value.size()] }
+%>
+<table class="aui">
+<thead>
+    <th>User</th>
+    <th>Count</th>
+</thead>
+<% byAuthors.each{ key, value -> %>
+   <tr>
+       <td>${key}</td>
+       <td>${value}</td>
+   </tr>
+<% } %>
+</table>
+
+Column:
+<%
+    def comments = commentManager.getComments(issue)
+%>
+<b>${comments.size()}</b>

@@ -28,7 +28,7 @@
             <input type="hidden" name="fieldConfigId" value="${fieldConfigId}"/>
             <div class="field-group">
                 <label for="viewTemplate">$i18n.getText("groovioli-field.readonly.config.config.viewTemplate")</label>
-                <textarea class="textarea" name="viewTemplate" id="viewTemplate" cols="120" rows="10">$!{viewTemplate}</textarea>
+                <textarea class="textarea" name="viewTemplate" id="viewTemplate" style="max-width: none; resize: vertical;" rows="10">$!{viewTemplate}</textarea>
                 #if($action.getErrors().containsKey("viewTemplate"))
                 <div class="error">$action.getErrors().get("viewTemplate")</div>
                 #end
@@ -36,7 +36,7 @@
             </div>
             <div class="field-group">
                 <label for="columnTemplate">$i18n.getText("groovioli-field.readonly.config.config.columnTemplate")</label>
-                <textarea class="textarea" name="columnTemplate" id="columnTemplate" cols="120" rows="10">$!{columnTemplate}</textarea>
+                <textarea class="textarea" name="columnTemplate" id="columnTemplate" style="max-width: none; resize: vertical;" rows="10">$!{columnTemplate}</textarea>
                 #if($action.getErrors().containsKey("columnTemplate"))
                 <div class="error">$action.getErrors().get("columnTemplate")</div>
                 #end
