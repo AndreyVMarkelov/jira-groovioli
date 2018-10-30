@@ -8,6 +8,8 @@ public class GroovioliBase extends Script {
     public Object invokeMethod(String name, Object args) {
         if ("addOption".equals(name)) {
             return ((GroovyObjectSupport) getProperty("fileOptionScript")).invokeMethod(name, args);
+        } else if ("projectByKey".equals(name)) {
+            return ((GroovyObjectSupport) getProperty("projectDsl")).invokeMethod(name, args);
         }
         return super.invokeMethod(name, args);
     }
