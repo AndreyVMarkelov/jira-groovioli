@@ -32,8 +32,10 @@ import groovy.lang.Script;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilerConfiguration;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
-import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.FieldOption;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.ConstantDsl;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.FieldOptionDsl;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.GroovioliBase;
+import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.IssueDsl;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.script.ProjectDsl;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
@@ -98,8 +100,10 @@ public class ScriptManagerImpl implements ScriptManager {
         baseVariables.put("applicationProperties", applicationProperties);
 
         // DSL
-        baseVariables.put("fileOptionScript", new FieldOption());
+        baseVariables.put("fieldOptionDsl", new FieldOptionDsl());
         baseVariables.put("projectDsl", new ProjectDsl());
+        baseVariables.put("constantDsl", new ConstantDsl());
+        baseVariables.put("issueDsl", new IssueDsl());
 
         scriptCache = CacheBuilder.newBuilder()
                 .maximumSize(10_000)

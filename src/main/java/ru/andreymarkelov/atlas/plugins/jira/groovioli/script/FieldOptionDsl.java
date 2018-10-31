@@ -10,11 +10,17 @@ import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.lang.GroovyObjectSupport;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptDslException;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-public class FieldOption extends GroovyObjectSupport {
+import static java.util.Arrays.asList;
+
+public class FieldOptionDsl extends GroovyObjectSupport {
     public void addOption(@DelegatesTo(FieldOptionHandler.class) Closure closure) {
         FieldOptionHandler fieldOptionHandler = new FieldOptionHandler();
         closure.setDelegate(fieldOptionHandler);
@@ -56,6 +62,45 @@ public class FieldOption extends GroovyObjectSupport {
         for (String option : fieldOptionHandler.getOptions()) {
             optionsManager.createOption(fieldConfig, null, lastSequence, option);
             lastSequence++;
+        }
+    }
+
+    @SuppressWarnings("WeakerAccess")
+    public class FieldOptionHandler {
+        private String customField = null;
+        private Long fieldConfigSchemeId = null;
+        private Set<String> options = new LinkedHashSet<>();
+
+        public String getCustomField() {
+            return customField;
+        }
+
+        public Long getFieldConfigSchemeId() {
+            return fieldConfigSchemeId;
+        }
+
+        public Set<String> getOptions() {
+            return Collections.unmodifiableSet(options);
+        }
+
+        public boolean isValid() {
+            return StringUtils.isNotBlank(customField) && !options.isEmpty();
+        }
+
+        public void customField(String customField) {
+            this.customField = customField;
+        }
+
+        public void fieldConfigSchemeId(Long fieldConfigSchemeId) {
+            this.fieldConfigSchemeId = fieldConfigSchemeId;
+        }
+
+        public void option(String option) {
+            this.options.add(option);
+        }
+
+        public void options(String... options) {
+            this.options.addAll(asList(options));
         }
     }
 }
