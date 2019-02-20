@@ -1,2 +1,9 @@
+<style>
+    #script {
+        color: #09FE01;
+        background-color: #000000;
+    }
+</style>
 Validation script:
-<pre>$script</pre>
+<p id="script">$script</p>
+<p id="message">Message: $message</p>

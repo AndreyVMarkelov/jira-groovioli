@@ -1,4 +1,14 @@
+<style>
+    #script {
+        color: #09FE01;
+        background-color: #000000;
+    }
+</style>
 <tr>
     <td class="fieldLabelArea">Groovy Script:</td>
-    <td nowrap><textarea name="script" id="script" cols="100" rows="40">$script</textarea></td>
+    <td nowrap><textarea name="script" id="script" cols="100" rows="20">$script</textarea></td>
+</tr>
+<tr>
+    <td class="fieldLabelArea">Message:</td>
+    <td nowrap><textarea name="message" id="message" cols="100" rows="1" maxlength="100" required="true">$message</textarea></td>
 </tr>

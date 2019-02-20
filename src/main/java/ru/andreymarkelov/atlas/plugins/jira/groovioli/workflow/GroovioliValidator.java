@@ -14,6 +14,7 @@ import ru.andreymarkelov.atlas.plugins.jira.groovioli.manager.ScriptManager;
 import ru.andreymarkelov.atlas.plugins.jira.groovioli.util.ScriptException;
 
 import static ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidatorFactory.FIELD;
+import static ru.andreymarkelov.atlas.plugins.jira.groovioli.workflow.GroovioliValidatorFactory.MESSAGE;
 
 public class GroovioliValidator implements Validator {
     private static final Logger log = LoggerFactory.getLogger(GroovioliValidator.class);
@@ -28,7 +29,7 @@ public class GroovioliValidator implements Validator {
     public void validate(Map transientVars, Map args, PropertySet ps) throws InvalidInputException {
         Issue issue = (Issue) transientVars.get("issue");
         String script = (String) args.get(FIELD);
-
+        String message = (String) args.get(MESSAGE);
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("issue", issue);
         parameters.put("issueImpl", IssueImpl.class.cast(issue));
@@ -38,7 +39,8 @@ public class GroovioliValidator implements Validator {
         parameters.put("log", log);
 
         try {
-            scriptManager.executeScript(script, parameters);
+            if((Boolean) scriptManager.executeScript(script, parameters)==false)
+                throw new InvalidInputException(message);
         } catch (ScriptException ex) {
             log.error("Error", ex);
             throw new InvalidInputException(ex);
